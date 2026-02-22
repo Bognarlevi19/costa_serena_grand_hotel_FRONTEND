@@ -1,22 +1,358 @@
-html {
-  font-size: 14px;
+:root {
+    /* világos "vaj + fehér" paletta */
+    --paper: #fffdf7;
+    --butter: #f5eddc;
+    --butter-2: #efe3cc;
+    --ink: #1f2328;
+    --muted: rgba(31,35,40,.65);
+    --glass: rgba(255,255,255,.72);
+    --soft: rgba(245, 237, 220, .65);
+    --border: rgba(31,35,40,.12);
+    --shadow: 0 18px 50px rgba(31,35,40,.12);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+html, body {
+    background: var(--paper);
+    color: var(--ink);
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.ls {
+    letter-spacing: .16em;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* ===== HEADER ===== */
+.header-glass {
+    background: linear-gradient( to bottom, rgba(245,237,220,.82), rgba(245,237,220,.30), rgba(245,237,220,0) );
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
 }
 
-body {
-  margin-bottom: 60px;
+/* ===== HAMBURGER ===== */
+.hamburger {
+    width: 18px;
+    height: 12px;
+    display: inline-block;
+    position: relative;
+}
+
+    .hamburger::before,
+    .hamburger::after,
+    .hamburger span {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        border-radius: 99px;
+        background: rgba(31,35,40,.85);
+    }
+
+    .hamburger::before {
+        top: 0;
+    }
+
+    .hamburger::after {
+        bottom: 0;
+    }
+
+    .hamburger span {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+/* ===== HERO ===== */
+.hero {
+    min-height: 100vh;
+    position: relative;
+    padding-top: 84px; /* header miatt */
+}
+
+.hero-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(.98) contrast(1.03);
+    transform: scale(1.02);
+}
+
+/* FONTOS: overlay visszavéve -> a videó jobban látszik,
+   de a bal alsó szöveg még olvasható marad */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 520px at 18% 75%, rgba(255,255,255,.55), rgba(245,237,220,.22) ), linear-gradient(to top, rgba(245,237,220,.50), rgba(245,237,220,.08) );
+}
+
+/* hero szöveg */
+.text-hero {
+    color: rgba(31,35,40,.92);
+    text-shadow: 0 10px 28px rgba(255,255,255,.45);
+}
+
+.text-hero-muted {
+    color: rgba(31,35,40,.68);
+    text-shadow: 0 10px 28px rgba(255,255,255,.45);
+}
+
+/* ===== SECTION BACKGROUNDS ===== */
+.section-paper {
+    background: var(--paper);
+}
+
+.section-soft {
+    background: linear-gradient(180deg, var(--butter), var(--paper));
+    border-top: 1px solid rgba(31,35,40,.06);
+    border-bottom: 1px solid rgba(31,35,40,.06);
+}
+
+/* ===== GLASS CARDS ===== */
+.glass {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+/* ===== TILES ===== */
+.feature-tile {
+    height: 320px;
+    position: relative;
+}
+
+.tile {
+    position: relative;
+    background: rgba(255,255,255,.55);
+}
+
+.tile-img {
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Feliratsáv: ne legyen fehér-fehér, legyen vajszín + olvasható */
+.tile-grad {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 18px;
+    background: linear-gradient( to top, rgba(245,237,220,.92), rgba(245,237,220,.00) );
+    color: var(--ink);
+}
+
+/* ===== PROBLÉMAFIX: ha valahol maradt text-white / text-white-50,
+   világos szekciókban kényszerítsük sötétre ===== */
+.section-paper .text-white,
+.section-soft .text-white,
+.offcanvas.bg-white .text-white {
+    color: var(--ink) !important;
+}
+
+.section-paper .text-white-50,
+.section-soft .text-white-50,
+.offcanvas.bg-white .text-white-50 {
+    color: var(--muted) !important;
+}
+
+/* Ugyanez a tile feliratokra is (ha a markupban maradt) */
+.tile .text-white {
+    color: var(--ink) !important;
+}
+
+.tile .text-white-50 {
+    color: var(--muted) !important;
+}
+
+/* ===== FORMS (világos) ===== */
+.form-soft {
+    background: rgba(255,255,255,.85) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--ink) !important;
+}
+
+    .form-soft::placeholder {
+        color: rgba(31,35,40,.5);
+    }
+
+.form-select.form-soft option {
+    color: var(--ink);
+}
+
+/* ===== HOVER ZOOM IMAGES ===== */
+.zoom-img {
+    transition: transform 0.4s ease;
+}
+
+.glass:hover .zoom-img {
+    transform: scale(1.08);
+}
+
+/* ===== IMAGE MODAL ===== */
+.img-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(31,35,40,.72);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
+}
+
+    .img-modal img {
+        max-width: min(1100px, 92vw);
+        max-height: 92vh;
+        border-radius: 18px;
+        box-shadow: 0 20px 60px rgba(0,0,0,.35);
+        cursor: default;
+        background: #fff;
+    }
+
+.clickable-img {
+    cursor: zoom-in;
+}
+/* =========================
+   FIX: ne legyen fehér szöveg világos háttéren
+   (globális felülírás, kivételekkel)
+   ========================= */
+
+/* Alapból minden text-white legyen sötét */
+.text-white {
+    color: #1f2328 !important;
+}
+
+.text-white-50 {
+    color: rgba(31,35,40,.65) !important;
+}
+
+/* Linkeknél is (ha link-light / text-white van rajta) */
+a.text-white,
+a.link-light {
+    color: #1f2328 !important;
+}
+
+a.text-white-50 {
+    color: rgba(31,35,40,.65) !important;
+}
+
+/* KIVÉTEL: ha valami tényleg sötét felületen van, ott maradhat fehér */
+.offcanvas.bg-black .text-white,
+.offcanvas.bg-black a.text-white,
+.offcanvas.bg-black .link-light,
+.offcanvas.bg-black .text-white-50 {
+    color: #fff !important;
+}
+
+.offcanvas.bg-black .text-white-50 {
+    color: rgba(255,255,255,.65) !important;
+}
+
+/* Tile feliratok: legyen biztosan sötét */
+.tile-grad,
+.tile-grad * {
+    color: #1f2328 !important;
+}
+
+/* =========================
+   HERO: videó overlay ne takarja ennyire
+   ========================= */
+.hero-overlay {
+    background: radial-gradient(900px 520px at 18% 75%, rgba(255,255,255,.35), rgba(245,237,220,.10) ), linear-gradient(to top, rgba(245,237,220,.35), rgba(245,237,220,.05) ) !important;
+}
+
+
+/* ===== CONTACT HERO (kép) ===== */
+.hero.hero-sm {
+    min-height: 70vh;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.02);
+}
+
+/* Contact hero overlay: világos, de a kép látszik */
+.hero-overlay.hero-overlay-soft {
+    background: radial-gradient(900px 520px at 18% 75%, rgba(255,255,255,.28), rgba(245,237,220,.10) ), linear-gradient(to top, rgba(245,237,220,.30), rgba(245,237,220,.06) );
+}
+
+.social-card {
+    background: #f8f5ed;
+    border-radius: 20px;
+    padding: 40px 20px;
+    min-height: 180px; /* ez stabilizálja */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+}
+
+    .social-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,.08);
+        background: #f3eee2;
+    }
+
+.social-icon {
+    font-size: 2.5rem;
+    line-height: 1; /* fontos: ne legyen extra “magasság” */
+}
+
+
+
+/* =========================
+   SPA OLDAL KIEGÉSZÍTÉS
+   ========================= */
+
+
+/* Spa service card hover */
+.service-card {
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+    .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 45px rgba(0,0,0,.12);
+    }
+
+
+
+/* Spa táblázat világos háttéren */
+.bg-spa .table {
+    background: rgba(255,255,255,.65);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+    .bg-spa .table thead th {
+        background: #f2ecdf;
+        border-bottom: 1px solid rgba(31,35,40,.15);
+        font-weight: 600;
+    }
+
+    .bg-spa .table tbody tr {
+        border-color: rgba(31,35,40,.08);
+    }
+
+        .bg-spa .table tbody tr:hover {
+            background: rgba(255,255,255,.85);
+        }
+
+/* Spa section spacing finomhangolás */
+.bg-spa section {
+    padding-top: 80px;
+    padding-bottom: 80px;
 }

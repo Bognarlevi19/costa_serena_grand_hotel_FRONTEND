@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using costa_serena_grand_hotel_FRONTEND.Services;
 
 namespace costa_serena_grand_hotel_FRONTEND
 {
@@ -13,17 +14,40 @@ namespace costa_serena_grand_hotel_FRONTEND
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+            /* // Add services to the container.
+             builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                 .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
-            builder.Services.AddAuthorization(options =>
+             builder.Services.AddAuthorization(options =>
+             {
+                 // By default, all incoming requests will be authorized according to the default policy.
+                 options.FallbackPolicy = options.DefaultPolicy;
+             });
+             builder.Services.AddRazorPages()
+                 .AddMicrosoftIdentityUI();*/
+
+            builder.Services.AddRazorPages();
+
+            builder.Services.AddHttpClient("costa_serena_grand_hotel_API", c =>
             {
-                // By default, all incoming requests will be authorized according to the default policy.
-                options.FallbackPolicy = options.DefaultPolicy;
-            });
-            builder.Services.AddRazorPages()
-                .AddMicrosoftIdentityUI();
+
+                c.BaseAddress = new Uri(builder.Configuration["Api:BaseUrl"]!);
+
+            })
+
+            .ConfigurePrimaryHttpMessageHandler(() =>
+
+            new HttpClientHandler { UseProxy = false }
+
+            );
+
+            //SERVICES APIK
+            builder.Services.AddScoped<SzobakApi>();
+            builder.Services.AddScoped<VendegekApi>();
+            builder.Services.AddScoped<FoglalasokApi>();
+
+
+
 
             var app = builder.Build();
 

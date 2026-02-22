@@ -1,0 +1,468 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.ContactModel
+@{
+    ViewData["Title"] = "Kapcsolat";
+}
+
+<!-- HEADER -->
+<header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
+    <nav class="container d-flex align-items-center justify-content-between py-3">
+        <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#menu"
+                aria-controls="menu">
+            <span class="hamburger" aria-hidden="true"></span>
+            <span class="small text-uppercase ls">Menü</span>
+        </button>
+
+        <a class="text-dark text-decoration-none fw-semibold ls" asp-page="/Index" style="font-size:.95rem;">
+            Costa Serena Grand Hotel
+        </a>
+
+        <button class="btn btn-outline-dark btn-sm rounded-pill px-3"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#reserve"
+                aria-controls="reserve">
+            Regisztráció/Belépés
+        </button>
+    </nav>
+</header>
+
+<!-- HERO (kép) -->
+<section class="hero hero-sm d-flex align-items-end position-relative">
+    <div class="hero-media">
+        <img class="hero-image" src="/kepek/hotelcontactkep.png" alt="Kapcsolat - Costa Serena Grand Hotel" />
+        <div class="hero-overlay hero-overlay-soft"></div>
+    </div>
+
+    <div class="container position-relative pb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="small text-uppercase ls text-hero-muted mb-2">KAPCSOLAT • ELÉRHETŐSÉGEK • ÜZENET</p>
+                <h1 class="display-5 fw-semibold mb-3 text-hero">Kapcsolat</h1>
+                <p class="lead text-dark mb-4">
+                    Írjon nekünk üzenetet, vagy keressen telefonon — segítünk a foglalásban, ajánlatokban és bármilyen kérdésben.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-dark rounded-pill px-4" href="#form">Üzenet küldése</a>
+                    <a class="btn btn-outline-dark rounded-pill px-4" href="#map">Térkép</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SOCIAL SECTION ================= -->
+<section id="social" class="py-5 bg-white border-top">
+    <div class="container py-4">
+
+        <div class="text-center mb-5">
+            <div class="small text-uppercase ls text-body-secondary mb-2">
+                Kövessen minket
+            </div>
+            <h2 class="display-6 fw-semibold">
+                Kapcsolódjon a Costa Serena világához.
+            </h2>
+        </div>
+
+        <div class="row justify-content-center g-4">
+
+            <!-- FACEBOOK -->
+            <div class="col-6 col-md-3">
+                <a href="https://www.facebook.com/levente.bognar.94"
+                   target="_blank" rel="noopener"
+                   class="social-card d-flex flex-column align-items-center justify-content-center text-decoration-none">
+                    <i class="bi bi-facebook social-icon mb-3"></i>
+                    <div class="fw-semibold text-dark">Facebook</div>
+                </a>
+            </div>
+
+            <!-- INSTAGRAM -->
+            <div class="col-6 col-md-3">
+                <a href="https://www.instagram.com/mmbalint/"
+                   target="_blank" rel="noopener"
+                   class="social-card d-flex flex-column align-items-center justify-content-center text-decoration-none">
+                    <i class="bi bi-instagram social-icon mb-3"></i>
+                    <div class="fw-semibold text-dark">Instagram</div>
+                </a>
+            </div>
+
+            <!-- TIKTOK -->
+            <div class="col-6 col-md-3">
+                <a href="https://www.instagram.com/marcibertha"
+                   target="_blank" rel="noopener"
+                   class="social-card d-flex flex-column align-items-center justify-content-center text-decoration-none">
+                    <i class="bi bi-tiktok social-icon mb-3"></i>
+                    <div class="fw-semibold text-dark">TikTok</div>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- ===================================================== -->
+<!-- CONTACT CONTENT -->
+<section class="py-5 section-paper">
+    <div class="container py-4">
+        <div class="row g-4 align-items-stretch" id="form">
+
+            <!-- BAL: Elérhetőségek -->
+            <div class="col-lg-5">
+                <div class="glass rounded-4 p-4 p-lg-5 h-100">
+                    <div class="small text-uppercase ls text-body-secondary mb-2">Elérhetőségek</div>
+                    <h2 class="h3 fw-semibold mb-4">Costa Serena Grand Hotel</h2>
+
+                    <div class="vstack gap-3 small">
+                        <div>
+                            <div class="text-body-secondary">Cím</div>
+                            <div class="fw-semibold">Italy - Vieste, Via Venezia 1.</div>
+                        </div>
+
+                        <div>
+                            <div class="text-body-secondary">Telefon</div>
+                            <div class="fw-semibold">+39 39 3939 3939</div>
+                        </div>
+
+                        <div>
+                            <div class="text-body-secondary">E-mail</div>
+                            <div class="fw-semibold">info@costaserena.com</div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 opacity-25" />
+
+                    <div class="small text-uppercase ls text-body-secondary mb-2">Nyitvatartás</div>
+                    <div class="small">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-body-secondary">Recepció</span>
+                            <span class="fw-semibold">0–24</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-body-secondary">Spa</span>
+                            <span class="fw-semibold">08:00 – 21:00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-body-secondary">Éttermek</span>
+                            <span class="fw-semibold">07:00 – 23:00</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a class="btn btn-outline-dark rounded-pill px-4" href="#map">Útvonaltervezés</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JOBB: Űrlap -->
+            <div class="col-lg-7">
+                <div class="glass rounded-4 p-4 p-lg-5 h-100">
+                    <div class="small text-uppercase ls text-body-secondary mb-2">Üzenet küldése</div>
+                    <h2 class="h3 fw-semibold mb-4">Írj nekünk</h2>
+
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-body-secondary">Név</label>
+                            <input class="form-control form-soft" type="text" placeholder="Teljes név" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small text-body-secondary">E-mail</label>
+                            <input class="form-control form-soft" type="email" placeholder="email@példa.hu" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small text-body-secondary">Telefon (opcionális)</label>
+                            <input class="form-control form-soft" type="tel" placeholder="+36..." />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small text-body-secondary">Téma</label>
+                            <select class="form-select form-soft">
+                                <option selected>Általános kérdés</option>
+                                <option>Foglalás</option>
+                                <option>Ajánlatok</option>
+                                <option>Rendezvény</option>
+                                <option>Egyéb</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small text-body-secondary">Üzenet</label>
+                            <textarea class="form-control form-soft" rows="5" placeholder="Írd ide az üzeneted..."></textarea>
+                        </div>
+
+                        <div class="col-12 d-flex flex-wrap align-items-center justify-content-between gap-2 mt-2">
+                            <div class="small text-body-secondary">
+                                Válaszidő: általában 24 órán belül.
+                            </div>
+                            <button class="btn btn-dark rounded-pill px-4" type="button">Küldés</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= SERVICES SECTION ================= -->
+<section id="services" class="py-5 section-paper">
+    <div class="container py-4">
+
+        <div class="text-center mb-5">
+            <div class="small text-uppercase ls text-body-secondary mb-2">
+                Kényelmi szolgáltatások
+            </div>
+            <h2 class="display-6 fw-semibold">
+                Prémium élmény már az első pillanattól.
+            </h2>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- PARKOLÁS -->
+            <div class="col-md-6">
+                <div class="glass rounded-4 overflow-hidden h-100 service-card">
+                    <img src="/kepek/privatparkolo.png"
+                         class="w-100 service-img clickable-img"
+                         alt="Privát parkoló"
+                         onclick="openImage(this.src)">
+
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">
+                            Parkolás
+                        </div>
+
+                        <h5 class="fw-semibold mb-2">
+                            Privát parkoló
+                        </h5>
+
+                        <div class="text-body-secondary small">
+                            Helyszíni, őrzött parkoló elérhető vendégeink számára.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRANSZFER -->
+            <div class="col-md-6">
+                <div class="glass rounded-4 overflow-hidden h-100 service-card">
+                    <img src="/kepek/transzfer.png"
+                         class="w-100 service-img clickable-img"
+                         alt="Reptéri transzfer"
+                         onclick="openImage(this.src)">
+
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">
+                            Transzfer
+                        </div>
+
+                        <h5 class="fw-semibold mb-2">
+                            Reptéri transzfer
+                        </h5>
+
+                        <div class="text-body-secondary small">
+                            Kérésre szervezett érkezés és indulás, kényelmes prémium járművekkel.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!-- ====================================================== -->
+<!-- ================= MAP SECTION ================= -->
+<section id="map" class="py-5 section-soft">
+    <div class="container py-4">
+
+        <div class="text-center mb-5">
+            <div class="small text-uppercase ls text-body-secondary mb-2">
+                Térkép
+            </div>
+            <h2 class="display-6 fw-semibold">
+                Találkozzunk a tengerpartnál.
+            </h2>
+        </div>
+
+        <div class="glass rounded-4 overflow-hidden">
+            <!-- API MAP IDE JÖN -->
+            <div id="contactMap" class="contact-map"></div>
+        </div>
+
+    </div>
+</section>
+<!-- ================================================= -->
+<!-- OFFCANVAS: MENU -->
+<div class="offcanvas offcanvas-start bg-white text-dark" tabindex="-1" id="menu">
+    <div class="offcanvas-header border-bottom border-dark border-opacity-10">
+        <h5 class="offcanvas-title ls">MENÜ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="vstack gap-2">
+            <a class="link-dark text-decoration-none" asp-page="/Index">Főoldal</a>
+            <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+            <a class="link-dark text-decoration-none" asp-page="/Galeria">Galéria</a>
+            <a class="link-dark text-decoration-none" asp-page="/Spa">Wellness & Spa</a>
+        </div>
+
+        <hr class="my-4 opacity-25" />
+
+        <div class="small text-uppercase ls text-body-secondary mb-2">Gyors elérés</div>
+        <div class="vstack gap-2">
+            <!-- SOCIAL -->
+            <a class="link-dark text-decoration-none"
+               asp-page="/Contact"
+               asp-fragment="social">
+                Social
+            </a>
+
+            <!-- FUVAR / PARKOLÁS -->
+            <a class="link-dark text-decoration-none"
+               asp-page="/Contact"
+               asp-fragment="services">
+                Szolgáltatások
+            </a>
+
+            <!-- TÉRKÉP -->
+            <a class="link-dark text-decoration-none"
+               asp-page="/Contact"
+               asp-fragment="map">
+                Térkép
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- OFFCANVAS: RESERVE -->
+<div class="offcanvas offcanvas-end bg-white text-dark" tabindex="-1" id="reserve">
+    <div class="offcanvas-header border-bottom border-dark border-opacity-10">
+        <h5 class="offcanvas-title ls">RESERVE</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form class="vstack gap-3">
+            <div>
+                <label class="form-label small text-body-secondary">Location</label>
+                <select class="form-select form-soft">
+                    <option selected>All destinations</option>
+                    <option>Budapest</option>
+                    <option>Vienna</option>
+                    <option>Prague</option>
+                </select>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Arrival</label>
+                    <input type="date" class="form-control form-soft" />
+                </div>
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Departure</label>
+                    <input type="date" class="form-control form-soft" />
+                </div>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Guests</label>
+                    <select class="form-select form-soft">
+                        <option>1</option>
+                        <option selected>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Rooms</label>
+                    <select class="form-select form-soft">
+                        <option selected>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-dark rounded-pill py-2">Search</button>
+            <div class="small text-body-secondary">Itt majd összekötöd a saját foglalómotoroddal.</div>
+        </form>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="py-5 border-top border-dark border-opacity-10 section-paper">
+    <div class="container">
+        <div class="row g-5">
+
+            <!-- KAPCSOLAT -->
+            <div class="col-12 col-md-4">
+                <h5 class="mb-3">Kapcsolat</h5>
+
+                <div class="small text-body-secondary">
+                    +39 39 3939 3939<br>
+                    info@costaserena.com<br>
+                    Italy - Vieste, Via Venezia 1.
+                </div>
+
+                <div class="small mt-3">
+                    <a href="#" class="link-dark text-decoration-none">
+                        Feliratkozás hírlevélre →
+                    </a>
+                </div>
+            </div>
+
+            <!-- INFORMÁCIÓK -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">Információk</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+                    <a class="link-dark text-decoration-none" href="#">Szobák</a>
+                    <a class="link-dark text-decoration-none" href="#">Spa</a>
+                    <a class="link-dark text-decoration-none" href="#">Ajánlataink</a>
+                    <a class="link-dark text-decoration-none" href="#">Programok</a>
+                </div>
+            </div>
+
+            <!-- ÚJ OSZLOP AZ INFORMÁCIÓK MELLETT -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">&nbsp;</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                </div>
+            </div>
+
+            <!-- JOBB OLDAL -->
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between text-md-end align-items-md-end">
+                <div>
+                    <h6 class="text-uppercase small text-body-secondary mb-3">Costa Serena</h6>
+
+                    <div class="small text-body-secondary">
+                        Luxus, nyugalom és felejthetetlen élmények
+                        a tengerpart szívében.
+                    </div>
+                </div>
+
+                <div class="small text-body-secondary mt-4">
+                    © @DateTime.Now.Year Costa Serena Grand Hotel<br>
+                    Minden jog fenntartva.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>

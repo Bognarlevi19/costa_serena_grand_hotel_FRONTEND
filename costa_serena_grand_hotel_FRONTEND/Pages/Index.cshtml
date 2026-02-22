@@ -1,10 +1,428 @@
 ﻿@page
-@model IndexModel
+@model costa_serena_grand_hotel_FRONTEND.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Főoldal";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- HEADER -->
+<header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
+    <nav class="container d-flex align-items-center justify-content-between py-3">
+        <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#menu"
+                aria-controls="menu">
+            <span class="hamburger" aria-hidden="true"></span>
+            <span class="small text-uppercase ls">Menü</span>
+        </button>
+
+        <a class="text-dark text-decoration-none fw-semibold ls" href="#" style="font-size:.95rem;">
+            Costa Serena Grand Hotel
+        </a>
+
+        <button class="btn btn-outline-dark btn-sm rounded-pill px-3"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#reserve"
+                aria-controls="reserve">
+            Regisztráció/Belépés
+        </button>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero d-flex align-items-end position-relative">
+    <div class="hero-media">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="/videok/HotelbemutatoVideo.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-overlay"></div>
+    </div>
+
+    <div class="container position-relative pb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="small text-uppercase ls text-hero-muted mb-2">EXKLUZÍV • PRIVÁT • PRÉMIUM</p>
+                <h1 class="display-5 fw-semibold mb-3 text-hero">A luxus valódi kezdete.</h1>
+                <p class="lead mb-4 text-black">
+                    Luxus medencék, pálmafák árnyéka és felejthetetlen esték egy igazán egyedi környezetben..
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-dark rounded-pill px-4" href="#story">Tudj meg többet</a>
+                    <button class="btn btn-outline-dark rounded-pill px-4"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#reserve">
+                        Foglalás
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="py-5 py-lg-6 section-paper">
+    <div class="container py-4">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+                <p class="small text-uppercase ls text-body-secondary mb-2">A Costa Serena Grand Hotelről</p>
+                <h2 class="fw-semibold mb-3 display-6">A luxus új értelmet kap.</h2>
+                <p class="text-body-secondary mb-4">
+                    Minden hotel egy helyszínre van hangolva: a hangulat, anyaghasználat, zene, illatok, fények.
+                    Nem “lánc”, hanem kollekció.
+                </p>
+
+                <div class="glass border border-dark border-opacity-10 rounded-4 p-4">
+                    <div class="fs-5">“Ahová egyszer megérkezel… és vissza akarsz térni.”</div>
+                    <div class="small text-body-secondary mt-2">— Vendégértékelések</div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <!-- EXKLUZÍV SZOBA: kattintásra nagyítás -->
+                        <a class="d-block feature-tile rounded-4 overflow-hidden border border-dark border-opacity-10 text-decoration-none text-dark tile"
+                           href="#"
+                           onclick="openImage('/kepek/LuxusSzoba.png'); return false;">
+                            <img class="w-100 h-100 object-fit-cover clickable-img"
+                                 alt="Prémium lakosztály"
+                                 src="/kepek/LuxusSzoba.png"
+                                 loading="lazy" />
+                            <div class="tile-grad p-3">
+                                <div class="small text-uppercase ls text-body-secondary">Exkluzív</div>
+                                <div class="h4 mb-0">Prémium lakosztály</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <!-- SPA: kattintásra nagyítás -->
+                        <a class="d-block feature-tile rounded-4 overflow-hidden border border-dark border-opacity-10 text-decoration-none text-dark tile"
+                           href="#"
+                           onclick="openImage('/kepek/HotelSpa.png'); return false;">
+                            <img class="w-100 h-100 object-fit-cover clickable-img"
+                                 alt="Spa"
+                                 src="/kepek/HotelSpa.png"
+                                 loading="lazy" />
+                            <div class="tile-grad p-3">
+                                <div class="small text-uppercase ls text-body-secondary">Nyugalom</div>
+                                <div class="h4 mb-0">Spa</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- DINING -->
+<section id="dining" class="py-5 section-soft">
+    <div class="container py-4">
+        <div class="d-flex align-items-end justify-content-between gap-3 mb-4">
+            <div>
+                <div class="small text-uppercase ls text-body-secondary">Éttermek &amp; Szórakozás</div>
+                <h2 class="display-6 fw-semibold mb-0">Helyek, amelyeket érdemes kipróbálni.</h2>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            @foreach (var it in Model.Elemek)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a class="d-block rounded-4 overflow-hidden border border-dark border-opacity-10 text-decoration-none text-dark tile"
+                       href="#"
+                       onclick="openImage('@it.kep'); return false;">
+                        <img class="w-100 tile-img clickable-img" alt="@it.cim" src="@it.kep" loading="lazy" />
+                        <div class="tile-grad p-3">
+                            <div class="small text-uppercase ls text-body-secondary">@it.tipus</div>
+                            <div class="h5 mb-0">@it.cim</div>
+                            <div class="small text-body-secondary">@it.hely</div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop" class="py-5 section-paper">
+    <div class="container py-4">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="small text-uppercase ls text-body-secondary">Üzlet</div>
+                <h2 class="display-6 fw-semibold mb-3">A Costa Serena élmény hazavihető..</h2>
+                <p class="text-body-secondary mb-4">
+                    Exkluzív illatok, prémium textíliák és gondosan válogatott kiegészítők, amelyek a tengerparti nyugalmat hozzák el otthonodba.
+                </p>
+                <a class="btn btn-dark rounded-pill px-4" href="#">Kollekció megtekintése</a>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="glass border border-dark border-opacity-10 rounded-4 overflow-hidden">
+                            <img class="w-100 zoom-img clickable-img"
+                                 alt="Illatgyertya"
+                                 loading="lazy"
+                                 src="/kepek/Illatgyertya.png"
+                                 onclick="openImage(this.src)" />
+                            <div class="p-3">
+                                <div class="small text-uppercase ls text-body-secondary">Illatgyertyák</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="glass border border-dark border-opacity-10 rounded-4 overflow-hidden">
+                            <img class="w-100 zoom-img clickable-img"
+                                 alt="Dísztakaró"
+                                 loading="lazy"
+                                 src="/kepek/disztakaro.png"
+                                 onclick="openImage(this.src)" />
+                            <div class="p-3">
+                                <div class="small text-uppercase ls text-body-secondary">Dísztakarók</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="glass border border-dark border-opacity-10 rounded-4 overflow-hidden">
+                            <img class="w-100 zoom-img clickable-img"
+                                 height="320"
+                                 alt="Costa Serena kollekció"
+                                 loading="lazy"
+                                 src="/kepek/shopkollekcio.png"
+                                 onclick="openImage(this.src)" />
+                            <div class="p-3">
+                                <div class="small text-uppercase ls text-body-secondary">Costa Serena kollekció</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- OFFERS + NEWSLETTER -->
+<section id="offers" class="py-5 section-soft">
+    <div class="container py-4">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="glass border border-dark border-opacity-10 rounded-4 p-4 p-lg-5 h-100">
+                    <div class="small text-uppercase ls text-body-secondary">Különleges ajánlatok</div>
+                    <h2 class="display-6 fw-semibold mb-3">Exklúzív ajánlatok a Costa Serena Grand Hoteltől </h2>
+                    <p class="text-body-secondary mb-4">
+                        Wellness hétvégék, romantikus csomagok és személyre szabott pihenés a Costa Serena Grand Hotel Spa részlegében.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-dark rounded-pill px-4" href="#">Ajánlatok megtekintése</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="glass border border-dark border-opacity-10 rounded-4 p-4 p-lg-5 h-100">
+                    <div class="small text-uppercase ls text-body-secondary">Hírlevél</div>
+                    <h3 class="h4 mb-3">Értesüljön elsőként.</h3>
+
+                    <form class="vstack gap-2">
+                        <input class="form-control form-soft" placeholder="Email cím" type="email" />
+                        <button class="btn btn-outline-dark rounded-pill mt-2" type="button">Feliratkozás</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-5 border-top border-dark border-opacity-10 section-paper">
+    <div class="container">
+        <div class="row g-5">
+
+            <!-- KAPCSOLAT -->
+            <div class="col-12 col-md-4">
+                <h5 class="mb-3">Kapcsolat</h5>
+
+                <div class="small text-body-secondary">
+                    +39 39 3939 3939<br>
+                    info@costaserena.com<br>
+                    Italy - Vieste, Via Venezia 1.
+                </div>
+
+                <div class="small mt-3">
+                    <a href="#" class="link-dark text-decoration-none">
+                        Feliratkozás hírlevélre →
+                    </a>
+                </div>
+            </div>
+
+            <!-- INFORMÁCIÓK -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">Információk</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+                    <a class="link-dark text-decoration-none" href="#">Szobák</a>
+                    <a class="link-dark text-decoration-none" href="#">Spa</a>
+                    <a class="link-dark text-decoration-none" href="#">Ajánlataink</a>
+                    <a class="link-dark text-decoration-none" href="#">Programok</a>
+                </div>
+            </div>
+
+            <!-- ÚJ OSZLOP AZ INFORMÁCIÓK MELLETT -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">&nbsp;</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                </div>
+            </div>
+
+            <!-- JOBB OLDAL -->
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between text-md-end align-items-md-end">
+                <div>
+                    <h6 class="text-uppercase small text-body-secondary mb-3">Costa Serena</h6>
+
+                    <div class="small text-body-secondary">
+                        Luxus, nyugalom és felejthetetlen élmények
+                        a tengerpart szívében.
+                    </div>
+                </div>
+
+                <div class="small text-body-secondary mt-4">
+                    © @DateTime.Now.Year Costa Serena Grand Hotel<br>
+                    Minden jog fenntartva.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+<!-- OFFCANVAS: MENU -->
+<div class="offcanvas offcanvas-start bg-white text-dark" tabindex="-1" id="menu">
+    <div class="offcanvas-header border-bottom border-dark border-opacity-10">
+        <h5 class="offcanvas-title ls">MENÜ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="vstack gap-2">
+            <a class="link-dark text-decoration-none" asp-page="/Index">Főoldal</a>
+            <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+            <a class="link-dark text-decoration-none" asp-page="/Galeria">Galéria</a>
+            <a class="link-dark text-decoration-none" asp-page="/Spa">Wellness & Spa</a>
+            <a class="link-dark text-decoration-none" href="#map">Térkép</a>
+        </div>
+
+        <hr class="my-4 opacity-25" />
+
+        <div class="small text-uppercase ls text-body-secondary mb-2">Gyors elérés</div>
+        <div class="vstack gap-2">
+            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="dining">Dining</a>
+            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="shop">Shop</a>
+            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="offers">Offers</a>
+        </div>
+    </div>
 </div>
+
+<!-- OFFCANVAS: RESERVE -->
+<div class="offcanvas offcanvas-end bg-white text-dark" tabindex="-1" id="reserve">
+    <div class="offcanvas-header border-bottom border-dark border-opacity-10">
+        <h5 class="offcanvas-title ls">RESERVE</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form class="vstack gap-3">
+            <div>
+                <label class="form-label small text-body-secondary">Location</label>
+                <select class="form-select form-soft">
+                    <option selected>All destinations</option>
+                    <option>Budapest</option>
+                    <option>Vienna</option>
+                    <option>Prague</option>
+                </select>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Arrival</label>
+                    <input type="date" class="form-control form-soft" />
+                </div>
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Departure</label>
+                    <input type="date" class="form-control form-soft" />
+                </div>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Guests</label>
+                    <select class="form-select form-soft">
+                        <option>1</option>
+                        <option selected>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label small text-body-secondary">Rooms</label>
+                    <select class="form-select form-soft">
+                        <option selected>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-dark rounded-pill py-2">Search</button>
+            <div class="small text-body-secondary">Itt majd összekötöd a saját foglalómotoroddal.</div>
+        </form>
+    </div>
+</div>
+
+<!-- ====== KÉPNAGYÍTÓ OVERLAY ====== -->
+<div id="imgModal" class="img-modal" onclick="closeImage()">
+    <img id="imgModalContent" alt="Nagyított kép" onclick="event.stopPropagation();" />
+</div>
+
+<script>
+    function openImage(src) {
+      const modal = document.getElementById("imgModal");
+      const img = document.getElementById("imgModalContent");
+
+      img.src = src;
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeImage() {
+      const modal = document.getElementById("imgModal");
+      const img = document.getElementById("imgModalContent");
+
+      modal.style.display = "none";
+      img.src = "";
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeImage();
+    });
+</script>

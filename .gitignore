@@ -1,0 +1,16 @@
+﻿bin/
+obj/
+.vs/
+*.user
+*.suo
+*.db
+*.log
+
+appsettings.Development.json
+
+node_modules/
+
+wwwroot/lib/
+
+*.pfx
+*.publishsettings

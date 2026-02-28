@@ -1,11 +1,63 @@
 ﻿@page
 @model costa_serena_grand_hotel_FRONTEND.Pages.SpaModel
+@using costa_serena_grand_hotel_FRONTEND.Services
+@inject AuthSession AuthSession
 @{
     ViewData["Title"] = "Wellness & Spa";
 }
 
 <!-- HEADER -->
 <header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
+    <nav class="container d-flex align-items-center justify-content-between py-3">
+        <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#menu"
+                aria-controls="menu">
+            <span class="hamburger" aria-hidden="true"></span>
+            <span class="small text-uppercase ls">Menü</span>
+        </button>
+
+        <a class="text-dark text-decoration-none fw-semibold ls" href="#" style="font-size:.95rem;">
+            Costa Serena Grand Hotel
+        </a>
+
+        @if (!AuthSession.IsSignedIn)
+        {
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-dark btn-sm rounded-pill px-3" asp-page="/Account/Login">
+                    Bejelentkezés
+                </a>
+                <a class="btn btn-dark btn-sm rounded-pill px-3" asp-page="/Account/Register">
+                    Regisztráció
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex align-items-center gap-3">
+                <span class="small text-uppercase ls text-body-secondary">
+                    @AuthSession.GetEmail()
+                    @if (AuthSession.IsInRole("Admin"))
+                    {
+                        <span class="badge bg-danger ms-2">Admin</span>
+                    }
+                    else if (AuthSession.IsInRole("User"))
+                    {
+                        <span class="badge bg-warning ms-2">User</span>
+                    }
+                </span>
+
+                <form method="post" asp-page="/Account/Logout" class="d-inline">
+                    <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                        Kijelentkezés
+                    </button>
+                </form>
+            </div>
+        }
+    </nav>
+</header>
+<!--<header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
     <nav class="container d-flex align-items-center justify-content-between py-3">
 
         <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2"
@@ -35,7 +87,7 @@
         </div>
 
     </nav>
-</header>
+</header>       EZ A RÉGI HEADER DE NEM TUDOM HOGY JO E AMIT MOST RAKOK BELE-->
 
 <!-- OFFCANVAS: MENU -->
 <div class="offcanvas offcanvas-start bg-white text-dark" tabindex="-1" id="menu">

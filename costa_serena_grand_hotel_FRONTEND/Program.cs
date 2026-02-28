@@ -1,10 +1,11 @@
+using costa_serena_grand_hotel_FRONTEND.Infrastructure;
+using costa_serena_grand_hotel_FRONTEND.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using costa_serena_grand_hotel_FRONTEND.Services;
 
 namespace costa_serena_grand_hotel_FRONTEND
 {
@@ -26,7 +27,13 @@ namespace costa_serena_grand_hotel_FRONTEND
              builder.Services.AddRazorPages()
                  .AddMicrosoftIdentityUI();*/
 
-            builder.Services.AddRazorPages();
+            builder.Services.AddScoped<AuthPageFilter>();
+            // Add services to the container.
+            builder.Services.AddRazorPages()
+            .AddMvcOptions(options =>
+            {
+                options.Filters.AddService<AuthPageFilter>();
+            });
 
             builder.Services.AddHttpClient("costa_serena_grand_hotel_API", c =>
             {
@@ -34,20 +41,30 @@ namespace costa_serena_grand_hotel_FRONTEND
                 c.BaseAddress = new Uri(builder.Configuration["Api:BaseUrl"]!);
 
             })
-
             .ConfigurePrimaryHttpMessageHandler(() =>
-
             new HttpClientHandler { UseProxy = false }
-
-            );
+            )
+            .AddHttpMessageHandler<JwtBearerHandler>();
 
             //SERVICES APIK
             builder.Services.AddScoped<SzobakApi>();
             builder.Services.AddScoped<VendegekApi>();
             builder.Services.AddScoped<FoglalasokApi>();
 
+            //JWT AUTH cokkie-khez ezt a kommentent a levi irta
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            builder.Services.AddHttpContextAccessor();
 
 
+            builder.Services.AddScoped<AuthSession>();
+            builder.Services.AddScoped<AuthApi>();
+            builder.Services.AddTransient<JwtBearerHandler>();
 
             var app = builder.Build();
 
@@ -65,6 +82,8 @@ namespace costa_serena_grand_hotel_FRONTEND
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapRazorPages();
             app.MapControllers();

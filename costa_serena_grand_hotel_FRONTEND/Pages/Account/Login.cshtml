@@ -1,0 +1,85 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Bejelentkezés";
+}
+
+<section class="section-soft py-5">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-6">
+
+                <div class="text-center mb-4">
+                    <div class="small text-uppercase ls text-body-secondary mb-2">
+                        Costa Serena Grand Hotel
+                    </div>
+                    <h1 class="display-6 fw-semibold mb-2">
+                        Bejelentkezés
+                    </h1>
+                    <p class="text-body-secondary mb-0">
+                        Jelentkezzen be a fiókjába, és folytassa onnan, ahol abbahagyta.
+                    </p>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Error))
+                {
+                    <div class="alert alert-danger rounded-4 border-0 shadow-sm">
+                        @Model.Error
+                    </div>
+                }
+
+                <div class="glass rounded-5 overflow-hidden">
+                    <div class="p-4 p-md-5">
+
+                        <form method="post" class="mt-1">
+
+                            <div class="mb-4">
+                                <label asp-for="Email" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Email cím
+                                </label>
+                                <input asp-for="Email"
+                                       class="form-control form-control-lg form-soft rounded-4"
+                                       type="email"
+                                       placeholder="nev@email.com" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Password" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Jelszó
+                                </label>
+                                <input asp-for="Password"
+                                       class="form-control form-control-lg form-soft rounded-4"
+                                       type="password"
+                                       placeholder="••••••••" />
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-dark btn-lg w-100 rounded-pill">
+                                Bejelentkezés
+                            </button>
+
+                            <div class="text-center mt-3">
+                                <a asp-page="/Account/Register" class="link-dark text-decoration-none">
+                                    Nincs még fiókja? <span class="fw-semibold">Regisztráció</span>
+                                </a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="text-decoration-none text-body-secondary small">
+                        ← Vissza a főoldalra
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

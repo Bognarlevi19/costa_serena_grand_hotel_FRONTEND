@@ -1,0 +1,320 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.ErtekelesekModel
+@using costa_serena_grand_hotel_FRONTEND.Services
+@inject AuthSession AuthSession
+@{
+    ViewData["Title"] = "Vendégértékelések";
+}
+<!-- =====  HEADER  Register menuponttal===== -->
+<header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
+    <nav class="container d-flex align-items-center justify-content-between py-3">
+        <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#menu"
+                aria-controls="menu">
+            <span class="hamburger" aria-hidden="true"></span>
+            <span class="small text-uppercase ls">Menü</span>
+        </button>
+
+        <a class="text-dark text-decoration-none fw-semibold ls" href="/" style="font-size:.95rem;">
+            Costa Serena Grand Hotel
+        </a>
+
+        @if (!AuthSession.IsSignedIn)
+        {
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-dark btn-sm rounded-pill px-3" asp-page="/Account/Login">
+                    Bejelentkezés
+                </a>
+                <a class="btn btn-dark btn-sm rounded-pill px-3" asp-page="/Account/Register">
+                    Regisztráció
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex align-items-center gap-3">
+                <span class="small text-uppercase ls text-body-secondary">
+                    @AuthSession.GetEmail()
+                    @if (AuthSession.IsInRole("Admin"))
+                    {
+                        <span class="badge bg-danger ms-2">Admin</span>
+                    }
+                    else if (AuthSession.IsInRole("User"))
+                    {
+                        <span class="badge bg-warning ms-2">User</span>
+                    }
+                </span>
+
+                <form method="post" asp-page="/Account/Logout" class="d-inline">
+                    <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                        Kijelentkezés
+                    </button>
+                </form>
+            </div>
+        }
+    </nav>
+</header>
+
+<!-- ===== HERO / HEADER ===== -->
+<section class="hero hero-sm d-flex align-items-end position-relative">
+    <div class="hero-media">
+        <!-- Cseréld le nyugodtan saját képre -->
+        <img class="hero-image" src="/Kepek/ertekelesek_kep.png" alt="Vendégértékelések - Costa Serena Grand Hotel" />
+        <div class="hero-overlay hero-overlay-soft"></div>
+    </div>
+
+    <div class="container position-relative pb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="small text-uppercase ls text-hero-muted mb-2">Élmények • Vélemények • Visszajelzések</p>
+                <h1 class="display-5 fw-semibold mb-3 text-hero">Vendégértékelések</h1>
+                <p class="lead text-dark mb-4">
+                    Valódi vendégeink tapasztalatai – és a Ön visszajelzése is számít.
+                    Írja meg, milyen volt a Costa Serena élmény!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OFFCANVAS: MENU -->
+<div class="offcanvas offcanvas-start bg-white text-dark" tabindex="-1" id="menu">
+    <div class="offcanvas-header border-bottom border-dark border-opacity-10">
+        <h5 class="offcanvas-title ls">MENÜ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="vstack gap-2">
+            <a class="link-dark text-decoration-none" asp-page="/Index">Főoldal</a>
+            <a class="link-dark text-decoration-none" asp-page="/Spa">Wellness & Spa</a>
+            <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+            <a class="link-dark text-decoration-none" asp-page="/Programok">Programok</a>
+        </div>
+
+        <hr class="my-4 opacity-25" />
+
+        <div class="small text-uppercase ls text-body-secondary mb-2">Gyors elérés</div>
+        <div class="vstack gap-2">
+            <a class="link-dark text-decoration-none" asp-page="/Ertekelesek" asp-fragment="ertekeles">Vélemények</a>
+            <a class="link-dark text-decoration-none" asp-page="/Ertekelesek" asp-fragment="kapcsolat">Kapcsolat</a>
+        </div>
+    </div>
+</div>
+
+<!-- ===== TARTALOM ===== -->
+<section class="section-soft py-5" id="ertekeles">
+    <div class="container py-4">
+
+        <div class="row g-4 align-items-start">
+
+            <!-- BAL: ÉRTÉKELÉSEK LISTA -->
+            <div class="col-12 col-lg-7">
+
+                <div class="d-flex align-items-end justify-content-between mb-3">
+                    <div>
+                        <div class="small text-uppercase ls text-body-secondary mb-1">Visszajelzések</div>
+                        <h2 class="h3 fw-semibold mb-0">Mit mondanak a vendégek?</h2>
+                    </div>
+
+                    <div class="text-end">
+                        <div class="small text-body-secondary">Átlag</div>
+                        <div class="fw-semibold">
+                            @Model.AverageRating.ToString("0.0") / 5
+                            <span class="text-body-secondary small">(@Model.Reviews.Count db)</span>
+                        </div>
+                    </div>
+                </div>
+
+                @if (TempData["ReviewOk"] is not null)
+                {
+                    <div class="alert alert-success glass rounded-4">
+                        @TempData["ReviewOk"]
+                    </div>
+                }
+
+                @if (Model.Reviews.Count == 0)
+                {
+                    <div class="glass rounded-4 p-4">
+                        <div class="text-body-secondary">
+                            Még nincs értékelés. Légy te az első! 🙂
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row g-3">
+                        @foreach (var r in Model.Reviews.OrderByDescending(x => x.CreatedAt))
+                        {
+                            <div class="col-12">
+                                <div class="glass rounded-4 p-4">
+                                    <div class="d-flex gap-3 align-items-start">
+
+                                        <!-- avatar / monogram -->
+                                        <div class="avatar-circle flex-shrink-0" aria-hidden="true">
+                                            @Model.GetInitials(r.Name)
+                                        </div>
+
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex align-items-start justify-content-between gap-3">
+                                                <div>
+                                                    <div class="fw-semibold">@r.Name</div>
+                                                    <div class="small text-body-secondary">
+                                                        @r.CreatedAt.ToString("yyyy.MM.dd. HH:mm")
+                                                    </div>
+                                                </div>
+
+                                                <!-- csillagok -->
+                                                <div class="rating-inline" title="@r.Rating / 5">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <span class="star @(i <= r.Rating ? "star-on" : "star-off")">★</span>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-3 text-dark">
+                                                @r.Comment
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- JOBB: ÚJ ÉRTÉKELÉS ŰRLAP -->
+            <div class="col-12 col-lg-5" >
+                <div class="glass rounded-4 p-4 p-md-5 sticky-lg-top" style="top: 96px;">
+                    <div class="small text-uppercase ls text-body-secondary mb-2">Új értékelés</div>
+                    <h3 class="h4 fw-semibold mb-3">Írja meg véleményét</h3>
+                    <p class="text-body-secondary mb-4">
+                        Név + csillagok + pár mondat – ennyi kell, hogy segítsen másoknak.
+                    </p>
+
+                    <form method="post" class="vstack gap-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+                        <div>
+                            <label asp-for="Input.Name" class="form-label">Név</label>
+                            <input asp-for="Input.Name" class="form-control form-soft rounded-3" placeholder="Pl. Kovács Anna" />
+                            <span asp-validation-for="Input.Name" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label class="form-label d-flex align-items-center justify-content-between">
+                                <span>Értékelés</span>
+                                <span class="small text-body-secondary">@Model.Input?.Rating / 5</span>
+                            </label>
+
+                            <!-- csillag választó -->
+                            <div class="star-picker" role="radiogroup" aria-label="Csillag értékelés">
+                                @for (int i = 5; i >= 1; i--)
+                                {
+                                    var id = $"rate{i}";
+                                    <input asp-for="Input.Rating" type="radio" value="@i" id="@id" />
+                                    <label for="@id" title="@i csillag">★</label>
+                                }
+                            </div>
+
+                            <span asp-validation-for="Input.Rating" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Input.Comment" class="form-label">Vélemény</label>
+                            <textarea asp-for="Input.Comment" class="form-control form-soft rounded-3" rows="5"
+                                      placeholder="Írja le röviden, milyen volt a szoba, a személyzet, a reggeli, a spa..."></textarea>
+                            <span asp-validation-for="Input.Comment" class="text-danger small"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark rounded-pill px-4 py-2">
+                            Értékelés elküldése
+                        </button>
+
+                        <div class="small text-body-secondary">
+                            Tipp: ne írjon személyes adatokat (pl. telefonszám, cím).
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="py-5 border-top border-dark border-opacity-10 section-paper">
+    <div class="container">
+        <div class="row g-5">
+
+            <!-- KAPCSOLAT -->
+            <div class="col-12 col-md-4" id="kapcsolat">
+                <h5 class="mb-3">Kapcsolat</h5>
+
+                <div class="small text-body-secondary">
+                    +39 39 3939 3939<br>
+                    info@costaserena.com<br>
+                    Italy - Vieste, Via Venezia 1.
+                </div>
+
+                <div class="small mt-3">
+                    <a href="#" class="link-dark text-decoration-none">
+                        Feliratkozás hírlevélre →
+                    </a>
+                </div>
+            </div>
+
+            <!-- INFORMÁCIÓK -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">Információk</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+                    <a class="link-dark text-decoration-none" href="#">Szobák</a>
+                    <a class="link-dark text-decoration-none" href="#">Spa</a>
+                    <a class="link-dark text-decoration-none" href="#">Ajánlataink</a>
+                    <a class="link-dark text-decoration-none" href="#">Programok</a>
+                </div>
+            </div>
+
+            <!-- ÚJ OSZLOP -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">&nbsp;</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                </div>
+            </div>
+
+            <!-- JOBB OLDAL -->
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between text-md-end align-items-md-end">
+                <div>
+                    <h6 class="text-uppercase small text-body-secondary mb-3">Costa Serena</h6>
+
+                    <div class="small text-body-secondary">
+                        Luxus, nyugalom és felejthetetlen élmények
+                        a tengerpart szívében.
+                    </div>
+                </div>
+
+                <div class="small text-body-secondary mt-4">
+                    © @DateTime.Now.Year Costa Serena Grand Hotel<br>
+                    Minden jog fenntartva.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

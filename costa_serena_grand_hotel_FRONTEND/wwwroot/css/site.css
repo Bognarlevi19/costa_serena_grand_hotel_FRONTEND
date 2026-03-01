@@ -356,3 +356,76 @@ a.text-white-50 {
     padding-top: 80px;
     padding-bottom: 80px;
 }
+
+
+
+
+
+
+/* ERTEKELESEK CSSS-E*/
+/* ===== Reviews: avatar ===== */
+.avatar-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    letter-spacing: .06em;
+    background: rgba(245,237,220,.9);
+    border: 1px solid rgba(31,35,40,.12);
+    color: rgba(31,35,40,.9);
+}
+
+/* ===== Reviews: csillag megjelenítés (kártyán) ===== */
+.rating-inline .star {
+    font-size: 18px;
+    line-height: 1;
+    margin-left: 2px;
+}
+
+.rating-inline .star-on {
+    color: #caa24a;
+}
+
+.rating-inline .star-off {
+    color: rgba(31,35,40,.22);
+}
+
+/* ===== Reviews: csillag választó (ûrlapon) ===== */
+.star-picker {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    gap: 6px;
+    user-select: none;
+}
+
+    .star-picker input {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .star-picker label {
+        font-size: 26px;
+        line-height: 1;
+        cursor: pointer;
+        color: rgba(31,35,40,.22);
+        transition: transform .15s ease, color .15s ease;
+    }
+
+        .star-picker label:hover {
+            transform: translateY(-1px);
+        }
+
+            /* Hover: az adott csillag és az összes "balra" (row-reverse miatt ~) */
+            .star-picker label:hover,
+            .star-picker label:hover ~ label {
+                color: #caa24a;
+            }
+
+    /* Kiválasztva */
+    .star-picker input:checked + label,
+    .star-picker input:checked + label ~ label {
+        color: #caa24a;
+    }
+/* ERTEKELESEK CSSS-E VEGE*/

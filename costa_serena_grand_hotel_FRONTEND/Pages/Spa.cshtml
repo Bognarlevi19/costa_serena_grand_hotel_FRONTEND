@@ -18,7 +18,7 @@
             <span class="small text-uppercase ls">Menü</span>
         </button>
 
-        <a class="text-dark text-decoration-none fw-semibold ls" href="#" style="font-size:.95rem;">
+        <a class="text-dark text-decoration-none fw-semibold ls" href="/" style="font-size:.95rem;">
             Costa Serena Grand Hotel
         </a>
 
@@ -117,43 +117,28 @@
 <!-- ===== OLDAL TARTALOM ===== -->
 <main text-dark">
 
-    <!-- HERO -->
-    <section class="section-paper border-bottom">
-        <div class="container py-5">
-            <div class="row align-items-center g-4">
+    <section class="hero hero-sm d-flex align-items-end position-relative">
+        <div class="hero-media">
+            <img class="hero-image" src="/Kepek/mazzsirozzakanot.png" alt="Wellnes & Spa - Costa Serena Grand Hotel" />
+            <div class="hero-overlay hero-overlay-soft"></div>
+        </div>
 
-                <div class="col-lg-7">
-                    <p class="text-uppercase small text-secondary mb-2">
-                        Costa Serena Grand Hotel
-                    </p>
-
-                    <h1 class="display-5 fw-bold mb-3">Wellness &amp; Spa</h1>
-
-                    <p class="lead text-secondary mb-4">
+        <div class="container position-relative pb-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <p class="small text-uppercase ls text-hero-muted mb-2">Nyugalom • Harmónia • Megújulás</p>
+                    <h1 class="display-5 fw-semibold mb-3 text-hero">A Feltöltődés Tere</h1>
+                    <p class="lead text-dark mb-4">
                         A nyugalom, a csend és a kiemelkedő színvonalú gondoskodás harmóniája.
                         Letisztult környezet és olyan szolgáltatások, amelyek teljes körű
                         feltöltődést biztosítanak.
                     </p>
-
-                    <div class="d-flex flex-wrap gap-2">
-                        <a class="btn btn-outline-dark rounded-pill px-4" href="#kezelesek">Kezelések</a>
-                        <a class="btn btn-dark rounded-pill px-4" href="#galeria">Képek</a>
-                    </div>
                 </div>
-
-                <div class="col-lg-5">
-                    <div class="border rounded-4 p-4 text-center bg-light">
-                        <img src="/Kepek/mazzsirozzakanot.png"
-                             alt="Hotel Spa"
-                             class="img-fluid rounded-4 js-lightbox"
-                             style="cursor: zoom-in;"
-                             data-full="/Kepek/mazzsirozzakanot.png" />
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
+
+  
 
     <!-- KEZELÉSEK -->
     <section id="kezelesek" class="section-soft">
@@ -345,7 +330,73 @@
         </div>
     </div>
 </div>
+<footer class="py-5 border-top border-dark border-opacity-10 section-paper">
+    <div class="container">
+        <div class="row g-5">
 
+            <!-- KAPCSOLAT -->
+            <div class="col-12 col-md-4">
+                <h5 class="mb-3">Kapcsolat</h5>
+
+                <div class="small text-body-secondary">
+                    +39 39 3939 3939<br>
+                    info@costaserena.com<br>
+                    Italy - Vieste, Via Venezia 1.
+                </div>
+
+                <div class="small mt-3">
+                    <a href="#" class="link-dark text-decoration-none">
+                        Feliratkozás hírlevélre →
+                    </a>
+                </div>
+            </div>
+
+            <!-- INFORMÁCIÓK -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">Információk</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
+                    <a class="link-dark text-decoration-none" href="#">Szobák</a>
+                    <a class="link-dark text-decoration-none" href="#">Spa</a>
+                    <a class="link-dark text-decoration-none" href="#">Ajánlataink</a>
+                    <a class="link-dark text-decoration-none" href="#">Programok</a>
+                </div>
+            </div>
+
+            <!-- ÚJ OSZLOP AZ INFORMÁCIÓK MELLETT -->
+            <div class="col-6 col-md-2">
+                <h6 class="text-uppercase small text-body-secondary mb-3">&nbsp;</h6>
+
+                <div class="d-flex flex-column gap-2 small">
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                    <a class="link-dark text-decoration-none" href="#">stb.</a>
+                </div>
+            </div>
+
+            <!-- JOBB OLDAL -->
+            <div class="col-12 col-md-4 d-flex flex-column justify-content-between text-md-end align-items-md-end">
+                <div>
+                    <h6 class="text-uppercase small text-body-secondary mb-3">Costa Serena</h6>
+
+                    <div class="small text-body-secondary">
+                        Luxus, nyugalom és felejthetetlen élmények
+                        a tengerpart szívében.
+                    </div>
+                </div>
+
+                <div class="small text-body-secondary mt-4">
+                    © @DateTime.Now.Year Costa Serena Grand Hotel<br>
+                    Minden jog fenntartva.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
 @section Scripts {
     <script>
         // Minden .js-lightbox képre kattintva megnyitjuk a bootstrap fullscreen modalt

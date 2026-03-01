@@ -1,0 +1,240 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.ProgramokModel
+@using costa_serena_grand_hotel_FRONTEND.Services
+@inject AuthSession AuthSession
+@{
+    ViewData["Title"] = "Programok";
+}
+
+@{
+    ViewData["Title"] = "Programok";
+}
+
+<!-- ===== HERO ===== -->
+<section class="hero hero-sm d-flex align-items-end position-relative">
+    <div class="hero-media">
+        <img class="hero-image" src="/Kepek/mazzsirozzakanot.png" alt="Programok - Costa Serena Grand Hotel" />
+        <div class="hero-overlay hero-overlay-soft"></div>
+    </div>
+
+    <div class="container position-relative pb-5">
+        <div class="row">
+            <div class="col-lg-9">
+                <p class="small text-uppercase ls text-hero-muted mb-2">
+                    Élmények • Felfedezés • Kikapcsolódás
+                </p>
+                <h1 class="display-5 fw-semibold mb-3 text-hero">
+                    Élményprogramok a Környéken
+                </h1>
+                <p class="lead text-dark mb-0">
+                    Fedezze fel a Costa Serena Grand Hotel környékének legizgalmasabb
+                    programlehetőségeit. Válogasson vízi élmények, természetközeli kalandok
+                    és kulturális felfedezések közül – mindössze néhány percre a hoteltől.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PROGRAMOK ===== -->
+<section class="py-5 section-paper">
+    <div class="container py-4">
+
+        <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
+            <div>
+                <div class="small text-uppercase ls text-body-secondary mb-2">Ajánlott programok</div>
+                <h2 class="display-6 fw-semibold mb-0">
+                    Tegye még emlékezetesebbé pihenését.
+                </h2>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Jetski -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Gyors hajózás a trópusi vízen.png" class="w-100 program-img zoom-img" alt="Jetski élmény" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Víz • Adrenalin</div>
+                        <h5 class="fw-semibold mb-2">Jetski élmény</h5>
+                        <p class="text-body-secondary mb-3">
+                            Tapasztalja meg a sebesség és a szabadság érzését
+                            biztonságos környezetben, szakértői felügyelettel.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quad -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Kalandos robogás a napsütésben.png" class="w-100 program-img zoom-img" alt="Quad túra" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Kaland • Terep</div>
+                        <h5 class="fw-semibold mb-2">Vezetett quad túra</h5>
+                        <p class="text-body-secondary mb-3">
+                            Fedezze fel a környék rejtett útvonalait és
+                            panorámás tájait izgalmas, mégis biztonságos túrák keretében.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hajó -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Naplemente a jacht fedélzetén.png" class="w-100 program-img zoom-img" alt="Hajókirándulás" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Víz • Panoráma</div>
+                        <h5 class="fw-semibold mb-2">Naplementés hajókirándulás</h5>
+                        <p class="text-body-secondary mb-3">
+                            Élvezze a víz nyugalmát és a lenyűgöző naplementét
+                            egy elegáns, vezetett hajóút során.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUP -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Vízisport a trópusi parton.png" class="w-100 program-img zoom-img" alt="SUP" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Sport • Kikapcsolódás</div>
+                        <h5 class="fw-semibold mb-2">SUP & Kajak</h5>
+                        <p class="text-body-secondary mb-3">
+                            Mozogjon a természetben, és fedezze fel a part menti
+                            szakaszokat saját tempójában.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strand -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Tengerparti pihenés koktélokkal.png" class="w-100 program-img zoom-img" alt="Strand" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Pihenés • Napfény</div>
+                        <h5 class="fw-semibold mb-2">Exkluzív strandélmény</h5>
+                        <p class="text-body-secondary mb-3">
+                            Töltődjön fel napfényben, kényelmes napágyakon,
+                            prémium kiszolgálás mellett.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kerékpár -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Kerékpározás a tengerparti ösvényen.png" class="w-100 program-img zoom-img" alt="Kerékpártúra" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Természet • Mozgás</div>
+                        <h5 class="fw-semibold mb-2">Kerékpártúra</h5>
+                        <p class="text-body-secondary mb-3">
+                            Fedezze fel a környék szépségeit kényelmes
+                            kerékpáros útvonalakon.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kilátó -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/kilato.png" class="w-100 program-img zoom-img" alt="Kilátó" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Panoráma • Természet</div>
+                        <h5 class="fw-semibold mb-2">Kilátó túra</h5>
+                        <p class="text-body-secondary mb-3">
+                            Gyönyörködjön a tájban egy könnyed, vezetett túra során.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lovaglás -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/lovaglasjo.png" class="w-100 program-img zoom-img" alt="Lovaglás" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Élmény • Természet</div>
+                        <h5 class="fw-semibold mb-2">Lovaglás</h5>
+                        <p class="text-body-secondary mb-3">
+                            Élvezze a természet közelségét nyugodt, vezetett lovaglás során.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Borkóstoló -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/borkostolo.png" class="w-100 program-img zoom-img" alt="Borkóstoló" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Gasztronómia</div>
+                        <h5 class="fw-semibold mb-2">Borkóstoló</h5>
+                        <p class="text-body-secondary mb-3">
+                            Ismerje meg a régió kiváló borait hangulatos,
+                            szakértő által vezetett kóstoló keretében.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Városnézés -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Történelmi túra a város szívében.png" class="w-100 program-img zoom-img" alt="Városnézés" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Kultúra</div>
+                        <h5 class="fw-semibold mb-2">Városnézés</h5>
+                        <p class="text-body-secondary mb-3">
+                            Fedezze fel a környék történelmi és kulturális értékeit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vízipark -->
+            <div class="col-md-6 col-lg-4">
+                <div class="glass rounded-4 overflow-hidden h-100 program-card">
+                    <img src="/Kepek/programok/Vidám csúszás a víziparkban.png" class="w-100 program-img zoom-img" alt="Vízipark" />
+                    <div class="p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Család</div>
+                        <h5 class="fw-semibold mb-2">Családi vízipark</h5>
+                        <p class="text-body-secondary mb-3">
+                            Tökéletes választás, ha az egész család számára
+                            szeretne aktív és vidám programot.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-5">
+            <div class="glass rounded-4 p-4 p-lg-5">
+                <div class="row align-items-center g-3">
+                    <div class="col-lg-8">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Concierge szolgáltatás</div>
+                        <h3 class="fw-semibold mb-2">Segítünk a programok megszervezésében</h3>
+                        <p class="text-body-secondary mb-0">
+                            Kérjük, forduljon recepciónkhoz bizalommal – munkatársaink
+                            örömmel segítenek a foglalásban és az időpont-egyeztetésben.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a href="/Contact" class="btn btn-dark rounded-pill px-4 py-2">
+                            Érdeklődés a programokról
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

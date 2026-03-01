@@ -19,7 +19,12 @@ html, body {
 .ls {
     letter-spacing: .16em;
 }
-
+.program-img {
+    width: 100%;
+    height: 220px; /* EZ lesz az egységes méret */
+    object-fit: cover;
+    display: block;
+}
 /* ===== HEADER ===== */
 .header-glass {
     background: linear-gradient( to bottom, rgba(245,237,220,.82), rgba(245,237,220,.30), rgba(245,237,220,0) );

@@ -1,0 +1,100 @@
+﻿@page "{szobaId:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Foglalas.UjModel
+@{
+    ViewData["Title"] = "Foglalás";
+}
+
+@if (Model.Szoba == null)
+{
+    <div class="container py-5">
+        <h1>A szoba nem található.</h1>
+    </div>
+}
+else
+{
+    <section class="section-paper min-vh-100 pt-5">
+        <div class="container py-5" style="padding-top:120px !important;">
+            <a asp-page="/Szobak/Details" asp-route-id="@Model.Szoba.Id" class="btn btn-outline-dark rounded-pill px-4 mb-4">
+                Vissza
+            </a>
+
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="glass border border-dark border-opacity-10 rounded-4 p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Foglalni kívánt szoba</div>
+                        <h1 class="h2 fw-semibold mb-3">@Model.Szoba.Nev</h1>
+                        <p class="text-body-secondary mb-2">@Model.Szoba.RovidLeiras</p>
+                        <p class="mb-1"><strong>Szobaszám:</strong> @Model.Szoba.Szam</p>
+                        <p class="mb-1"><strong>Férőhely:</strong> @Model.Szoba.Ferohely fő</p>
+                        <p class="mb-0"><strong>Ár:</strong> @Model.Szoba.Ar.ToString("N0") Ft / éj</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="glass border border-dark border-opacity-10 rounded-4 p-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Vendégadatok</div>
+                        <h2 class="h4 mb-4">Foglalási űrlap</h2>
+
+                        <form method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Név</label>
+                                    <input asp-for="Nev" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Személyi igazolvány szám</label>
+                                    <input asp-for="SzemelyiIgazolvanySzam" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Irányítószám</label>
+                                    <input asp-for="IranyitoSzam" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Város</label>
+                                    <input asp-for="Varos" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Utca</label>
+                                    <input asp-for="Utca" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Házszám</label>
+                                    <input asp-for="Hazszam" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Mettől</label>
+                                    <input asp-for="Mettol" type="date" class="form-control" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Meddig</label>
+                                    <input asp-for="Meddig" type="date" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="mt-4 d-flex gap-2">
+                                <button type="submit" class="btn btn-dark rounded-pill px-4">
+                                    Tovább
+                                </button>
+
+                                <a asp-page="/Szobak/Details" asp-route-id="@Model.Szoba.Id" class="btn btn-outline-dark rounded-pill px-4">
+                                    Mégse
+                                </a>
+                            </div>
+
+                            <div class="mt-3 text-body-secondary small">
+                                Ez az űrlap most csak előtöltésre szolgál, még nem küld adatot sehova.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

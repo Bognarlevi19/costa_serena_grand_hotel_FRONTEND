@@ -32,6 +32,53 @@
                     <div class="p-4 p-md-5">
 
                         <form method="post" class="mt-1">
+                            <div class="mb-4">
+                                <label asp-for="Nev" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Név
+                                </label>
+                                <input asp-for="Nev" class="form-control form-control-lg form-soft rounded-4" />
+                                <span asp-validation-for="Nev" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="SzemelyiIgazolvanySzam" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Személyi igazolvány szám
+                                </label>
+                                <input asp-for="SzemelyiIgazolvanySzam" class="form-control form-control-lg form-soft rounded-4" />
+                                <span asp-validation-for="SzemelyiIgazolvanySzam" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="IranyitoSzam" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Irányítószám
+                                </label>
+                                <input asp-for="IranyitoSzam" class="form-control form-control-lg form-soft rounded-4" />
+                                <span asp-validation-for="IranyitoSzam" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Varos" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Város
+                                </label>
+                                <input asp-for="Varos" class="form-control form-control-lg form-soft rounded-4" />
+                                <span asp-validation-for="Varos" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Utca" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Utca
+                                </label>
+                                <input asp-for="Utca" class="form-control form-control-lg form-soft rounded-4" />
+                                <span asp-validation-for="Utca" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Hazszam" class="form-label small text-uppercase ls text-body-secondary mb-2">
+                                    Házszám
+                                </label>
+                                <input asp-for="Hazszam" class="form-control form-control-lg form-soft rounded-4" />
+                                <span asp-validation-for="Hazszam" class="text-danger small"></span>
+                            </div>
 
                             <div class="mb-4">
                                 <label asp-for="Email" class="form-label small text-uppercase ls text-body-secondary mb-2">

@@ -1,3 +1,5 @@
+using costa_serena_grand_hotel_FRONTEND.Dtos;
+using costa_serena_grand_hotel_FRONTEND.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -6,40 +8,48 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages
 {
     public class ErtekelesekModel : PageModel
     {
-        private static readonly List<Review> _reviews = new()
+        private readonly ErtekelesekApi _ertekelesekApi;
+        private readonly AuthSession _authSession;
+
+        public ErtekelesekModel(ErtekelesekApi ertekelesekApi, AuthSession authSession)
         {
-            new Review { Name = "Nagy Dóra", Rating = 5, Comment = "Kifogástalan kiszolgálás, gyönyörû szoba és nagyon nyugodt spa részleg.", CreatedAt = DateTime.Now.AddDays(-6) },
-            new Review { Name = "Kiss Márk", Rating = 4, Comment = "A reggeli brutál jó, a személyzet kedves. Esténként a lobby hangulata extra.", CreatedAt = DateTime.Now.AddDays(-3) },
-            new Review { Name = "Szabó Petra", Rating = 5, Comment = "Tengerpart, tisztaság, csend — pont ezt kerestük. Biztosan visszajövünk.", CreatedAt = DateTime.Now.AddDays(-1) },
-        };
+            _ertekelesekApi = ertekelesekApi;
+            _authSession = authSession;
+        }
 
-        public List<Review> Reviews => _reviews;
+        public List<ErtekelesDto> Reviews { get; set; } = new();
 
-        public double AverageRating => _reviews.Count == 0 ? 0 : _reviews.Average(r => r.Rating);
+        public double AverageRating => Reviews.Count == 0 ? 0 : Reviews.Average(r => r.Rating);
 
         [BindProperty]
         public ReviewInput Input { get; set; } = new();
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            // ha kell, itt lehetne elõtöltés / szûrés / rendezés
+            Reviews = await _ertekelesekApi.GetAllAsync();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-                return Page();
-
-            _reviews.Add(new Review
+            if (!_authSession.IsSignedIn)
             {
-                Name = Input.Name.Trim(),
-                Rating = Input.Rating,
-                Comment = Input.Comment.Trim(),
-                CreatedAt = DateTime.Now
-            });
+                TempData["ReviewError"] = "Értékelést csak bejelentkezett felhasználó írhat.";
+                return RedirectToPage("/Account/Login");
+            }
 
-            TempData["ReviewOk"] = "Köszönjük! Az értékelésed sikeresen mentésre került.";
-            return RedirectToPage(); // PRG (ne duplázódjon frissítéskor)
+            if (!ModelState.IsValid)
+            {
+                Reviews = await _ertekelesekApi.GetAllAsync();
+                return Page();
+            }
+
+            await _ertekelesekApi.CreateAsync(
+                Input.Rating,
+                Input.Comment
+            );
+
+            TempData["ReviewOk"] = "Köszönjük! Az értékelése sikeresen mentésre került.";
+            return RedirectToPage();
         }
 
         public string GetInitials(string name)
@@ -58,21 +68,9 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages
             return first + last;
         }
 
-        public class Review
-        {
-            public string Name { get; set; } = "";
-            public int Rating { get; set; }
-            public string Comment { get; set; } = "";
-            public DateTime CreatedAt { get; set; }
-        }
-
         public class ReviewInput
         {
-            [Required(ErrorMessage = "A név megadása kötelezõ.")]
-            [StringLength(60, ErrorMessage = "A név maximum 60 karakter lehet.")]
-            public string Name { get; set; } = "";
-
-            [Range(1, 5, ErrorMessage = "Válassz 1 és 5 csillag között.")]
+            [Range(1, 5, ErrorMessage = "Válasszon 1 és 5 csillag között.")]
             public int Rating { get; set; } = 5;
 
             [Required(ErrorMessage = "A vélemény megadása kötelezõ.")]

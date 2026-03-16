@@ -1,0 +1,138 @@
+﻿@page "{id:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Szobak.DetailsModel
+@{
+    ViewData["Title"] = Model.Szoba?.Nev ?? "Szoba részletei";
+}
+
+@if (Model.Szoba == null)
+{
+    <div class="container py-5">
+        <h1>A szoba nem található.</h1>
+    </div>
+}
+else
+{
+    var kepek = Model.GetKepek(Model.Szoba.KepekJson);
+    var foKep = kepek.FirstOrDefault();
+    var tobbiKep = kepek.Skip(1).Take(3).ToList();
+
+    <section class="section-paper min-vh-100 pt-5">
+        <div class="container py-5" style="padding-top:120px !important;">
+            <a asp-page="/Szobak/Kategoria"
+               asp-route-id="@Model.Szoba.SzobaKategoriaId"
+               class="btn btn-outline-dark rounded-pill px-4 mb-4">
+                Vissza
+            </a>
+
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-7">
+                    <div class="glass border border-dark border-opacity-10 rounded-4 overflow-hidden mb-4">
+                        <div class="detail-main-image d-flex align-items-center justify-content-center">
+                            @if (!string.IsNullOrWhiteSpace(foKep))
+                            {
+                                <img src="@foKep" alt="@Model.Szoba.Nev" class="w-100 h-100 object-fit-cover" />
+                            }
+                            else
+                            {
+                                <div class="text-center p-4 text-body-secondary">
+                                    <i class="bi bi-image fs-1 d-block mb-2"></i>
+                                    <span>Ide jön majd a fő kép a wwwrootból</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <div class="col-12 col-md-4">
+                                <div class="glass border border-dark border-opacity-10 rounded-4 overflow-hidden">
+                                    <div class="detail-gallery-image d-flex align-items-center justify-content-center">
+                                        @if (i < tobbiKep.Count && !string.IsNullOrWhiteSpace(tobbiKep[i]))
+                                        {
+                                            <img src="@tobbiKep[i]" alt="További kép @(i + 1)" class="w-100 h-100 object-fit-cover" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-body-secondary small">További kép @(i + 1)</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="small text-uppercase ls text-body-secondary mb-2">
+                        @(string.IsNullOrWhiteSpace(Model.Szoba.KategoriaNev) ? "Szoba" : Model.Szoba.KategoriaNev)
+                    </div>
+
+                    <h1 class="display-6 fw-semibold text-dark mb-3">@Model.Szoba.Nev</h1>
+
+                    <p class="lead text-body-secondary mb-4">
+                        @Model.Szoba.RovidLeiras
+                    </p>
+
+                    <div class="glass border border-dark border-opacity-10 rounded-4 p-4 mb-4">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="small text-uppercase ls text-body-secondary mb-1">Szobaszám</div>
+                                <div class="fw-semibold text-dark">@Model.Szoba.Szam</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="small text-uppercase ls text-body-secondary mb-1">Emelet</div>
+                                <div class="fw-semibold text-dark">@Model.Szoba.Emelet. emelet</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="small text-uppercase ls text-body-secondary mb-1">Alapterület</div>
+                                <div class="fw-semibold text-dark">@Model.Szoba.Alapterulet m²</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="small text-uppercase ls text-body-secondary mb-1">Férőhely</div>
+                                <div class="fw-semibold text-dark">@Model.Szoba.Ferohely fő</div>
+                            </div>
+                            <div class="col-12">
+                                <div class="small text-uppercase ls text-body-secondary mb-1">Ár</div>
+                                <div class="fw-semibold text-dark fs-3">@Model.Szoba.Ar.ToString("N0") Ft / éj</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass border border-dark border-opacity-10 rounded-4 p-4 mb-4">
+                        <div class="small text-uppercase ls text-body-secondary mb-2">Leírás</div>
+                        <p class="text-body-secondary mb-0">
+                            @Model.Szoba.Leiras
+                        </p>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a asp-page="/Foglalas/Uj"
+                           asp-route-szobaId="@Model.Szoba.Id"
+                           class="btn btn-dark rounded-pill px-4">
+                            Foglalás
+                        </a>
+
+                        <a asp-page="/Szobak/Kategoria"
+                           asp-route-id="@Model.Szoba.SzobaKategoriaId"
+                           class="btn btn-outline-dark rounded-pill px-4">
+                            Vissza
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<style>
+    .detail-main-image {
+        height: 460px;
+        background: linear-gradient(135deg, #f3eee7 0%, #e7ded3 100%);
+    }
+
+    .detail-gallery-image {
+        height: 160px;
+        background: linear-gradient(135deg, #f6f1ea 0%, #e9dfd3 100%);
+    }
+</style>

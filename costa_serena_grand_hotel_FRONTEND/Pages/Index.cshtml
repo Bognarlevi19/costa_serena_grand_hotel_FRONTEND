@@ -7,54 +7,63 @@
 }
 
 <!-- HEADER -->
-<header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
-    <nav class="container d-flex align-items-center justify-content-between py-3">
-        <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#menu"
-                aria-controls="menu">
-            <span class="hamburger" aria-hidden="true"></span>
-            <span class="small text-uppercase ls">Menü</span>
-        </button>
+<<header class="position-fixed top-0 start-0 end-0 z-3 header-glass">
+    <nav class="container py-2">
+        <div class="row align-items-center justify-content-between header-row">
 
-        <a class="text-dark text-decoration-none fw-semibold ls" href="#" style="font-size:.95rem;">
-            Costa Serena Grand Hotel
-        </a>
-        @if (!AuthSession.IsSignedIn)
-        {
-            <div class="d-flex gap-2">
-                <a class="btn btn-outline-dark btn-sm rounded-pill px-3" asp-page="/Account/Login">
-                    Bejelentkezés
-                </a>
-                <a class="btn btn-dark btn-sm rounded-pill px-3" asp-page="/Account/Register">
-                    Regisztráció
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <button class="btn btn-link text-dark text-decoration-none p-0 d-flex align-items-center gap-2 header-menu-btn"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#menu"
+                        aria-controls="menu">
+                    <span class="hamburger" aria-hidden="true"></span>
+                    <span class="small text-uppercase ls mb-0">Menü</span>
+                </button>
+            </div>
+
+            <div class="col-4 d-flex align-items-center justify-content-center text-center">
+                <a class="text-dark text-decoration-none fw-semibold ls hotel-brand" asp-page="/Index">
+                    Costa Serena Grand Hotel
                 </a>
             </div>
-        }
-        else
-        {
-            <div class="d-flex align-items-center gap-3">
 
-                <span class="small text-uppercase ls text-body-secondary">
-                    @AuthSession.GetEmail()
-                    @if (AuthSession.IsInRole("Admin"))
-                    {
-                        <span class="badge bg-danger ms-2">Admin</span>
-                    }
-                    else if (AuthSession.IsInRole("User"))
-                    {
-                        <span class="badge bg-warning ms-2">User</span>
-                    }
-                </span>
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                @if (!AuthSession.IsSignedIn)
+                {
+                    <div class="d-flex align-items-center justify-content-end gap-2 header-actions">
+                        <a class="btn btn-outline-dark btn-sm rounded-pill px-3" asp-page="/Account/Login">
+                            Bejelentkezés
+                        </a>
+                        <a class="btn btn-dark btn-sm rounded-pill px-3" asp-page="/Account/Register">
+                            Regisztráció
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center justify-content-end gap-3 header-actions">
+                        <span class="small text-uppercase ls text-body-secondary mb-0 header-user-email">
+                            @AuthSession.GetEmail()
+                            @if (AuthSession.IsInRole("Admin"))
+                            {
+                                <span class="badge bg-danger ms-2">Admin</span>
+                            }
+                            else if (AuthSession.IsInRole("User"))
+                            {
+                                <span class="badge bg-warning ms-2">User</span>
+                            }
+                        </span>
 
-                <form method="post" asp-page="/Account/Logout" class="d-inline">
-                    <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-                        Kijelentkezés
-                    </button>
-                </form>
+                        <form method="post" asp-page="/Account/Logout" class="d-inline mb-0">
+                            <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                                Kijelentkezés
+                            </button>
+                        </form>
+                    </div>
+                }
             </div>
-        }
+        </div>
     </nav>
 </header>
 
@@ -105,7 +114,7 @@
                 <div class="glass border border-dark border-opacity-10 rounded-4 p-4">
                     <div class="fs-5">“Ahová egyszer megérkezel… és vissza akarsz térni.”</div>
                     <div class="small text-body-secondary mt-2">
-                        <a class="link-dark text-decoration-none"  href="/Ertekelesek">— Vendégértékelések</a>
+                        <a class="link-dark text-decoration-none" asp-page="/Ertekelesek">— Vendégértékelések</a>
 
                      </div>
                 </div>
@@ -255,20 +264,30 @@
                         Wellness hétvégék, romantikus csomagok és személyre szabott pihenés a Costa Serena Grand Hotel Spa részlegében.
                     </p>
                     <div class="d-flex flex-wrap gap-2">
-                        <a class="btn btn-dark rounded-pill px-4" href="#">Ajánlatok megtekintése</a>
+                        <a class="btn btn-dark rounded-pill px-4" asp-page="/Spa">Ajánlatok megtekintése</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-5">
+            <div class="col-lg-5" id="hirlevel">
                 <div class="glass border border-dark border-opacity-10 rounded-4 p-4 p-lg-5 h-100">
                     <div class="small text-uppercase ls text-body-secondary">Hírlevél</div>
                     <h3 class="h4 mb-3">Értesüljön elsőként.</h3>
 
-                    <form class="vstack gap-2">
-                        <input class="form-control form-soft" placeholder="Email cím" type="email" />
-                        <button class="btn btn-outline-dark rounded-pill mt-2" type="button">Feliratkozás</button>
+                    <form class="vstack gap-2" id="newsletterForm">
+                        <input class="form-control form-soft" id="newsletterEmail" placeholder="Email cím" type="email" />
+                        <button class="btn btn-outline-dark rounded-pill mt-2" type="submit">Feliratkozás</button>
                     </form>
+                </div>
+            </div>
+
+            <div id="newsletterPopup" class="newsletter-popup">
+                <div class="newsletter-popup-box">
+                    <div class="small text-uppercase ls text-body-secondary mb-2">Sikeres feliratkozás</div>
+                    <h4 class="fw-semibold mb-3" id="newsletterPopupTitle"></h4>
+                    <p class="text-body-secondary mb-0">
+                        Mostantól elsőként értesülhet az ajánlatainkról.
+                    </p>
                 </div>
             </div>
 
@@ -292,40 +311,28 @@
                 </div>
 
                 <div class="small mt-3">
-                    <a href="#" class="link-dark text-decoration-none">
+                    <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="hirlevel">
                         Feliratkozás hírlevélre →
                     </a>
                 </div>
             </div>
 
             <!-- INFORMÁCIÓK -->
-            <div class="col-6 col-md-2">
+            <div class="col-6 col-md-2 mx-md-auto">
                 <h6 class="text-uppercase small text-body-secondary mb-3">Információk</h6>
 
                 <div class="d-flex flex-column gap-2 small">
                     <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
-                    <a class="link-dark text-decoration-none" href="#">Szobák</a>
-                    <a class="link-dark text-decoration-none" href="#">Spa</a>
-                    <a class="link-dark text-decoration-none" href="#">Ajánlataink</a>
-                    <a class="link-dark text-decoration-none" href="#">Programok</a>
+                    <a class="link-dark text-decoration-none" asp-page="/Szobak/Index">Szobák</a>
+                    <a class="link-dark text-decoration-none" asp-page="/Spa">Spa</a>
+                    <a class="link-dark text-decoration-none" asp-page="/Webshop">Webshop</a>
+                    <a class="link-dark text-decoration-none" asp-page="/Programok">Programok</a>
                 </div>
             </div>
 
-            <!-- ÚJ OSZLOP AZ INFORMÁCIÓK MELLETT -->
-            <div class="col-6 col-md-2">
-                <h6 class="text-uppercase small text-body-secondary mb-3">&nbsp;</h6>
-
-                <div class="d-flex flex-column gap-2 small">
-                    <a class="link-dark text-decoration-none" href="#">stb.</a>
-                    <a class="link-dark text-decoration-none" href="#">stb.</a>
-                    <a class="link-dark text-decoration-none" href="#">stb.</a>
-                    <a class="link-dark text-decoration-none" href="#">stb.</a>
-                    <a class="link-dark text-decoration-none" href="#">stb.</a>
-                </div>
-            </div>
 
             <!-- JOBB OLDAL -->
-            <div class="col-12 col-md-4 d-flex flex-column justify-content-between text-md-end align-items-md-end">
+            <div class="col-12 col-md-4 ms-md-auto d-flex flex-column justify-content-between text-md-end align-items-md-end">
                 <div>
                     <h6 class="text-uppercase small text-body-secondary mb-3">Costa Serena</h6>
 
@@ -358,21 +365,20 @@
             <a class="link-dark text-decoration-none" asp-page="/Galeria">Galéria</a>
             <a class="link-dark text-decoration-none" asp-page="/Ertekelesek">Értékelések</a>
             <a class="link-dark text-decoration-none" asp-page="/Programok">Programok</a>
-
             @if (AuthSession.IsSignedIn)
             {
                 <a class="link-dark text-decoration-none" asp-page="/Spa">Wellness & Spa</a>
             }
-            <a class="link-dark text-decoration-none" href="#map">Térkép</a>
+            <a class="link-dark text-decoration-none" asp-page="/Szobak/Index">Szobák megtekintése</a>
         </div>
 
         <hr class="my-4 opacity-25" />
 
         <div class="small text-uppercase ls text-body-secondary mb-2">Gyors elérés</div>
         <div class="vstack gap-2">
-            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="dining">Dining</a>
-            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="shop">Shop</a>
-            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="offers">Offers</a>
+            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="dining">Étkezés</a>
+            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="shop">Saját márkás termékek</a>
+            <a class="link-dark text-decoration-none" asp-page="/Index" asp-fragment="offers">Ajánlatok</a>
         </div>
     </div>
 </div>
@@ -461,5 +467,30 @@
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeImage();
+    });
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("newsletterForm");
+        const input = document.getElementById("newsletterEmail");
+        const popup = document.getElementById("newsletterPopup");
+        const popupTitle = document.getElementById("newsletterPopupTitle");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const email = input.value.trim();
+
+            if (email !== "") {
+                popupTitle.textContent = `Köszönjük a feliratkozást, ${email}`;
+                input.value = "";
+                popup.classList.add("show");
+
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                }, 3000);
+            }
+        });
     });
 </script>

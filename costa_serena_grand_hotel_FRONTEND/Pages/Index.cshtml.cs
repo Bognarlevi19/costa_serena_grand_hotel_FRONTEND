@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace costa_serena_grand_hotel_FRONTEND.Pages
@@ -5,6 +6,8 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages
     public class IndexModel : PageModel
     {
         public record Etelelemek(string cim, string hely, string tipus, string kep);
+        [TempData]
+        public string? SuccessMessage { get; set; }
 
         public List<Etelelemek> Elemek { get; private set; } = new();
 

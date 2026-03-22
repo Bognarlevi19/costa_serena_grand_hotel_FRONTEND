@@ -46,6 +46,13 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 
             response.EnsureSuccessStatusCode();
         }
+        public async Task UpdateOwnAsync(VendegDto dto)
+        {
+            var response = await _f.CreateClient("costa_serena_grand_hotel_API")
+                .PutAsJsonAsync("api/Vendeg/me", dto);
+
+            response.EnsureSuccessStatusCode();
+        }
 
         public async Task DeleteAsync(int id)
         {

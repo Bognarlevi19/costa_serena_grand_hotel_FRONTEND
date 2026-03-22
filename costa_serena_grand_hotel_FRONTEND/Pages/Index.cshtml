@@ -441,12 +441,31 @@
     </div>
 </div>
 
+@if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+{
+    <div id="foglalasKoszonoPopup" class="booking-popup-overlay">
+        <div class="booking-popup-box">
+            <div class="booking-popup-title">Sikeres foglalás</div>
+            <div class="booking-popup-text">@Model.SuccessMessage</div>
+            <button type="button" class="btn btn-dark rounded-pill px-4 mt-3" onclick="closeBookingPopup()">
+                Rendben
+            </button>
+        </div>
+    </div>
+}
+
 <!-- ====== KÉPNAGYÍTÓ OVERLAY ====== -->
 <div id="imgModal" class="img-modal" onclick="closeImage()">
     <img id="imgModalContent" alt="Nagyított kép" onclick="event.stopPropagation();" />
 </div>
 
 <script>
+        function closeBookingPopup() {
+        var popup = document.getElementById("foglalasKoszonoPopup");
+        if (popup) {
+            popup.style.display = "none";
+        }
+    }
     function openImage(src) {
       const modal = document.getElementById("imgModal");
       const img = document.getElementById("imgModalContent");

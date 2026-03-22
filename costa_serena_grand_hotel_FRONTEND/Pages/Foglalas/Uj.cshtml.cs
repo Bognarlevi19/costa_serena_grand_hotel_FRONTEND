@@ -9,16 +9,25 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
     {
         private readonly SzobakApi _szobakApi;
         private readonly VendegekApi _vendegekApi;
+        private readonly FoglalasokApi _foglalasokApi;
         private readonly AuthSession _authSession;
 
-        public UjModel(SzobakApi szobakApi, VendegekApi vendegekApi, AuthSession authSession)
+        public UjModel(
+            SzobakApi szobakApi,
+            VendegekApi vendegekApi,
+            FoglalasokApi foglalasokApi,
+            AuthSession authSession)
         {
             _szobakApi = szobakApi;
             _vendegekApi = vendegekApi;
+            _foglalasokApi = foglalasokApi;
             _authSession = authSession;
         }
 
         public SzobaDto? Szoba { get; set; }
+
+        [TempData]
+        public string? SuccessMessage { get; set; }
 
         [BindProperty]
         public string Nev { get; set; } = string.Empty;
@@ -51,19 +60,19 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
             if (Szoba == null)
                 return NotFound();
 
-            if (_authSession.IsSignedIn)
-            {
-                var vendeg = await _vendegekApi.GetCurrentAsync();
+            if (!_authSession.IsSignedIn)
+                return RedirectToPage("/Account/Login");
 
-                if (vendeg != null)
-                {
-                    Nev = vendeg.Nev;
-                    SzemelyiIgazolvanySzam = vendeg.SzemelyiIgazolvanySzam;
-                    IranyitoSzam = vendeg.IranyitoSzam;
-                    Varos = vendeg.Varos;
-                    Utca = vendeg.Utca;
-                    Hazszam = vendeg.Hazszam;
-                }
+            var vendeg = await _vendegekApi.GetCurrentAsync();
+
+            if (vendeg != null)
+            {
+                Nev = vendeg.Nev;
+                SzemelyiIgazolvanySzam = vendeg.SzemelyiIgazolvanySzam;
+                IranyitoSzam = vendeg.IranyitoSzam;
+                Varos = vendeg.Varos;
+                Utca = vendeg.Utca;
+                Hazszam = vendeg.Hazszam;
             }
 
             return Page();
@@ -76,7 +85,45 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
             if (Szoba == null)
                 return NotFound();
 
-            return Page();
+            if (!_authSession.IsSignedIn)
+                return RedirectToPage("/Account/Login");
+
+            if (!ModelState.IsValid)
+                return Page();
+
+            var vendeg = await _vendegekApi.GetCurrentAsync();
+            if (vendeg == null)
+            {
+                ModelState.AddModelError(string.Empty, "Nem található a bejelentkezett felhasználóhoz tartozó vendégadat.");
+                return Page();
+            }
+
+            vendeg.Nev = Nev;
+            vendeg.SzemelyiIgazolvanySzam = SzemelyiIgazolvanySzam;
+            vendeg.IranyitoSzam = IranyitoSzam;
+            vendeg.Varos = Varos;
+            vendeg.Utca = Utca;
+            vendeg.Hazszam = Hazszam;
+
+            try
+            {
+                await _vendegekApi.UpdateOwnAsync(vendeg);
+
+                await _foglalasokApi.CreateAsync(new FoglalasDto
+                {
+                    SzobaId = szobaId,
+                    Mettol = Mettol,
+                    Meddig = Meddig
+                });
+
+                SuccessMessage = "Köszönjük a foglalást!";
+                return RedirectToPage("/Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return Page();
+            }
         }
     }
 }

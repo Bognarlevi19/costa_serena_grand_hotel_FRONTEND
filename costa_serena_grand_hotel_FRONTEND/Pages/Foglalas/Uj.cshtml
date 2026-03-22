@@ -35,61 +35,67 @@ else
                         <div class="small text-uppercase ls text-body-secondary mb-2">Vendégadatok</div>
                         <h2 class="h4 mb-4">Foglalási űrlap</h2>
 
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
                         <form method="post">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Név</label>
+                                    <label asp-for="Nev" class="form-label">Név</label>
                                     <input asp-for="Nev" class="form-control" />
+                                    <span asp-validation-for="Nev" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">Személyi igazolvány szám</label>
+                                    <label asp-for="SzemelyiIgazolvanySzam" class="form-label">Személyi igazolvány szám</label>
                                     <input asp-for="SzemelyiIgazolvanySzam" class="form-control" />
+                                    <span asp-validation-for="SzemelyiIgazolvanySzam" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Irányítószám</label>
+                                    <label asp-for="IranyitoSzam" class="form-label">Irányítószám</label>
                                     <input asp-for="IranyitoSzam" class="form-control" />
+                                    <span asp-validation-for="IranyitoSzam" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Város</label>
+                                    <label asp-for="Varos" class="form-label">Város</label>
                                     <input asp-for="Varos" class="form-control" />
+                                    <span asp-validation-for="Varos" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Utca</label>
+                                    <label asp-for="Utca" class="form-label">Utca</label>
                                     <input asp-for="Utca" class="form-control" />
+                                    <span asp-validation-for="Utca" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Házszám</label>
+                                    <label asp-for="Hazszam" class="form-label">Házszám</label>
                                     <input asp-for="Hazszam" class="form-control" />
+                                    <span asp-validation-for="Hazszam" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Mettől</label>
+                                    <label asp-for="Mettol" class="form-label">Mettől</label>
                                     <input asp-for="Mettol" type="date" class="form-control" />
+                                    <span asp-validation-for="Mettol" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Meddig</label>
+                                    <label asp-for="Meddig" class="form-label">Meddig</label>
                                     <input asp-for="Meddig" type="date" class="form-control" />
+                                    <span asp-validation-for="Meddig" class="text-danger small"></span>
                                 </div>
                             </div>
 
                             <div class="mt-4 d-flex gap-2">
                                 <button type="submit" class="btn btn-dark rounded-pill px-4">
-                                    Tovább
+                                    Foglalás elküldése
                                 </button>
 
                                 <a asp-page="/Szobak/Details" asp-route-id="@Model.Szoba.Id" class="btn btn-outline-dark rounded-pill px-4">
                                     Mégse
                                 </a>
-                            </div>
-
-                            <div class="mt-3 text-body-secondary small">
-                                Ez az űrlap most csak előtöltésre szolgál, még nem küld adatot sehova.
                             </div>
                         </form>
                     </div>
@@ -97,4 +103,8 @@ else
             </div>
         </div>
     </section>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

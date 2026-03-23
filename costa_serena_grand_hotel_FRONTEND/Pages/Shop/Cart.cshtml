@@ -1,0 +1,100 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Shop.CartModel
+
+@{
+    ViewData["Title"] = "Kosár";
+}
+
+<div class="shop-page shop-page-light">
+    <div class="container py-5">
+        <div class="shop-shell">
+            <div class="shop-header-row">
+                <div>
+                    <div class="shop-section-label">Costa Serena</div>
+                    <h1 class="shop-section-title">Kosár</h1>
+                    <p class="shop-section-subtitle">Tekintsd át a kiválasztott termékeket, majd lépj tovább a rendeléshez.</p>
+                </div>
+
+                <a asp-page="/Shop/Index" class="costa-outline-btn">Vissza a webshophoz</a>
+            </div>
+
+            @if (!Model.Items.Any())
+            {
+                <div class="shop-empty-box">
+                    A kosár jelenleg üres.
+                </div>
+            }
+            else
+            {
+                <div class="shop-panel">
+                    <div class="table-responsive">
+                        <table class="table align-middle shop-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Termék</th>
+                                    <th>Darabár</th>
+                                    <th>Mennyiség</th>
+                                    <th>Összeg</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="shop-product-cell">
+                                                <img src="@(string.IsNullOrWhiteSpace(item.KepUrl) ? "/kepek/shopkollekcio.png" : item.KepUrl)"
+                                                     alt="@item.Nev"
+                                                     class="shop-cart-image" />
+                                                <div>
+                                                    <div class="shop-product-name">@item.Nev</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>@item.Ar.ToString("N0") Ft</td>
+                                        <td>
+                                            <div class="shop-qty-box">
+                                                <form method="post" asp-page-handler="Minus">
+                                                    <input type="hidden" name="termekId" value="@item.TermekId" />
+                                                    <button type="submit" class="shop-qty-btn">-</button>
+                                                </form>
+
+                                                <span class="shop-qty-value">@item.Mennyiseg</span>
+
+                                                <form method="post" asp-page-handler="Plus">
+                                                    <input type="hidden" name="termekId" value="@item.TermekId" />
+                                                    <button type="submit" class="shop-qty-btn">+</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="fw-semibold">@item.Osszeg.ToString("N0") Ft</td>
+                                        <td>
+                                            <form method="post" asp-page-handler="Remove">
+                                                <input type="hidden" name="termekId" value="@item.TermekId" />
+                                                <button type="submit" class="shop-delete-btn">Törlés</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="shop-summary-bar">
+                    <div>
+                        <div class="shop-summary-label">Végösszeg</div>
+                        <div class="shop-summary-value">@Model.Vegosszeg.ToString("N0") Ft</div>
+                    </div>
+
+                    <form method="post" asp-page-handler="Checkout">
+                        <button type="submit" class="costa-btn shop-main-btn">
+                            Tovább a rendeléshez
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>

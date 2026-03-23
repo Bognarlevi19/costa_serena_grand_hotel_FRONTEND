@@ -1,0 +1,99 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Shop.CheckoutModel
+
+@{
+    ViewData["Title"] = "Rendelés leadása";
+}
+
+<div class="shop-page shop-page-light">
+    <div class="container py-5">
+        <div class="shop-shell">
+            <div class="shop-header-row">
+                <div>
+                    <div class="shop-section-label">Costa Serena</div>
+                    <h1 class="shop-section-title">Rendelés leadása</h1>
+                    <p class="shop-section-subtitle">Ellenőrizd az adataidat, majd véglegesítsd a rendelést.</p>
+                </div>
+
+                <a asp-page="/Shop/Cart" class="costa-outline-btn">Vissza a kosárhoz</a>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="shop-validation mb-4"></div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="shop-panel">
+                        <form method="post">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label asp-for="Nev" class="form-label shop-label"></label>
+                                    <input asp-for="Nev" class="form-control shop-input" />
+                                    <span asp-validation-for="Nev" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="SzemelyiIgazolvanySzam" class="form-label shop-label"></label>
+                                    <input asp-for="SzemelyiIgazolvanySzam" class="form-control shop-input" />
+                                    <span asp-validation-for="SzemelyiIgazolvanySzam" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label asp-for="IranyitoSzam" class="form-label shop-label"></label>
+                                    <input asp-for="IranyitoSzam" class="form-control shop-input" />
+                                    <span asp-validation-for="IranyitoSzam" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label asp-for="Varos" class="form-label shop-label"></label>
+                                    <input asp-for="Varos" class="form-control shop-input" />
+                                    <span asp-validation-for="Varos" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label asp-for="Utca" class="form-label shop-label"></label>
+                                    <input asp-for="Utca" class="form-control shop-input" />
+                                    <span asp-validation-for="Utca" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label asp-for="Hazszam" class="form-label shop-label"></label>
+                                    <input asp-for="Hazszam" class="form-control shop-input" />
+                                    <span asp-validation-for="Hazszam" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="costa-btn shop-main-btn mt-4">
+                                Rendelés véglegesítése
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="shop-panel shop-summary-panel">
+                        <h4 class="shop-summary-title">Összesítés</h4>
+
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="shop-summary-item">
+                                <span>@item.Nev x @item.Mennyiseg</span>
+                                <strong>@item.Osszeg.ToString("N0") Ft</strong>
+                            </div>
+                        }
+
+                        <hr />
+
+                        <div class="shop-summary-total">
+                            <span>Végösszeg</span>
+                            <span>@Model.Vegosszeg.ToString("N0") Ft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

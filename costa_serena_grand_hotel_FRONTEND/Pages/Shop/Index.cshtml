@@ -1,0 +1,99 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Shop.IndexModel
+
+@{
+    ViewData["Title"] = "Costa Serena Webshop";
+}
+
+<div class="shop-page">
+    <div class="container">
+        <div class="shop-hero">
+            <h1>Costa Serena Webshop</h1>
+            <p>Prémium hotel hangulat, elegáns ajándékok és exkluzív kiegészítők</p>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+        {
+            <div class="costa-alert">
+                @Model.SuccessMessage
+            </div>
+        }
+
+        <div class="row g-4 shop-grid">
+            @foreach (var termek in Model.Termekek)
+            {
+                var kepUrl = string.IsNullOrWhiteSpace(termek.KepUrl)
+                ? "/kepek/shopkollekcio.png"
+                : termek.KepUrl;
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="costa-card">
+                        <div class="costa-card-image-wrap">
+                            <img src="@kepUrl"
+                                 alt="@termek.Nev"
+                                 class="costa-card-image shop-zoomable-image"
+                                 onclick="openShopImageModal('@kepUrl', '@termek.Nev')" />
+                        </div>
+
+                        <div class="costa-card-body">
+                            <div class="costa-category">@termek.Kategoria</div>
+                            <div class="costa-title">@termek.Nev</div>
+                            <div class="costa-desc">@termek.Leiras</div>
+
+                            <div class="costa-price-row">
+                                <div class="costa-price">@termek.Ar.ToString("N0") Ft</div>
+
+                                <form method="post" asp-page-handler="AddToCart">
+                                    <input type="hidden" name="termekId" value="@termek.Id" />
+                                    <button type="submit" class="costa-btn">Kosárba</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="shopImageModal" class="shop-image-modal" onclick="closeShopImageModal()">
+    <button type="button" class="shop-image-close" onclick="closeShopImageModal(event)">×</button>
+    <img id="shopImageModalImg" class="shop-image-modal-content" src="" alt="" />
+    <div id="shopImageModalCaption" class="shop-image-caption"></div>
+</div>
+
+@section Scripts {
+    <script>
+        function openShopImageModal(imageUrl, caption) {
+            const modal = document.getElementById('shopImageModal');
+            const modalImg = document.getElementById('shopImageModalImg');
+            const modalCaption = document.getElementById('shopImageModalCaption');
+
+            modalImg.src = imageUrl;
+            modalImg.alt = caption;
+            modalCaption.textContent = caption;
+            modal.classList.add('show');
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeShopImageModal(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+
+            const modal = document.getElementById('shopImageModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('shopImageModal');
+                if (modal.classList.contains('show')) {
+                    closeShopImageModal();
+                }
+            }
+        });
+    </script>
+}

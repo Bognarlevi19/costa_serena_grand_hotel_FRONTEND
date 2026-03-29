@@ -1,0 +1,87 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.FoglalasaimModel
+@{
+    ViewData["Title"] = "Foglalásaim";
+}
+
+<div class="shop-page shop-page-light">
+    <div class="container py-5">
+        <div class="shop-shell">
+            <div class="shop-header-row">
+                <div>
+                    <div class="shop-section-label">Costa Serena</div>
+                    <h1 class="shop-section-title">Foglalásaim</h1>
+                    <p class="shop-section-subtitle">
+                        Itt látod a bejelentkezett fiókodhoz tartozó foglalásokat.
+                    </p>
+                </div>
+
+                <a asp-page="/Szobak/Index" class="costa-outline-btn">Új foglalás</a>
+            </div>
+
+            @if (!Model.Foglalasok.Any())
+            {
+                <div class="shop-empty-box">
+                    Jelenleg még nincs foglalásod.
+                </div>
+            }
+            else
+            {
+                <div class="row g-4">
+                    @foreach (var foglalas in Model.Foglalasok)
+                    {
+                        var status = Model.GetStatusText(foglalas);
+
+                        <div class="col-12 col-lg-6">
+                            <div class="shop-panel h-100">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                    <div>
+                                        <div class="shop-section-label mb-1">
+                                            @(string.IsNullOrWhiteSpace(foglalas.KategoriaNev) ? "Szoba" : foglalas.KategoriaNev)
+                                        </div>
+                                        <h3 class="h4 mb-1 text-dark">@foglalas.SzobaNev</h3>
+                                        <div class="text-body-secondary">Szobaszám: @foglalas.SzobaSzam</div>
+                                    </div>
+
+                                    <span class="booking-status-pill">@status</span>
+                                </div>
+
+                                <div class="booking-info-grid">
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Érkezés</div>
+                                        <div class="booking-info-value">@foglalas.Mettol.ToString("yyyy.MM.dd")</div>
+                                    </div>
+
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Távozás</div>
+                                        <div class="booking-info-value">@foglalas.Meddig.ToString("yyyy.MM.dd")</div>
+                                    </div>
+
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Fizetés</div>
+                                        <div class="booking-info-value">
+                                            @(foglalas.Fizetett ? "Rendezve" : "Nincs még rendezve")
+                                        </div>
+                                    </div>
+
+                                    <div class="booking-info-item">
+                                        <div class="booking-info-label">Foglalás azonosító</div>
+                                        <div class="booking-info-value">#@foglalas.Id</div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a asp-page="/Szobak/Details"
+                                       asp-route-id="@foglalas.SzobaId"
+                                       class="costa-outline-btn">
+                                        Szoba megtekintése
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

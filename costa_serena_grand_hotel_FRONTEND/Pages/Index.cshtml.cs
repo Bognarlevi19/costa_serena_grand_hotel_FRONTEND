@@ -6,8 +6,12 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages
     public class IndexModel : PageModel
     {
         public record Etelelemek(string cim, string hely, string tipus, string kep);
+
         [TempData]
         public string? SuccessMessage { get; set; }
+
+        [TempData]
+        public string? PopupTitle { get; set; }
 
         public List<Etelelemek> Elemek { get; private set; } = new();
 
@@ -20,7 +24,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages
                 new("Holdfény Bár", "Zene • Koktél • Hangulat", "BÁR", "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=70"),
                 new("Ízmûhely", "Szezonális kóstolómenü", "ÉTTEREM", "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1400&q=70"),
                 new("Napfény Terasz", "Nyugodt reggelek a kertben", "ÉTTEREM", "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1400&q=70"),
-                new("Kristály Bár", "Exklúzív Italok", "BÁR", "/kepek/Kristalybar.png"),
+                new("Kristály Bár", "Exkluzív italok", "BÁR", "/kepek/Kristalybar.png"),
             };
         }
     }

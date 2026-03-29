@@ -57,5 +57,11 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 
             response.EnsureSuccessStatusCode();
         }
+        public async Task<List<SajatFoglalasDto>> GetOwnAsync()
+        {
+            return await _f.CreateClient("costa_serena_grand_hotel_API")
+                .GetFromJsonAsync<List<SajatFoglalasDto>>("api/Foglalas/sajat")
+                ?? new List<SajatFoglalasDto>();
+        }
     }
 }

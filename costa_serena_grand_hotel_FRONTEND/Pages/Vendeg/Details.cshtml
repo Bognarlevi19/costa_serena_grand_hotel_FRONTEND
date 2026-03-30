@@ -1,0 +1,106 @@
+﻿@page "/Vendeg/{id:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Vendeg.DetailsModel
+@{
+    ViewData["Title"] = "Adataim";
+}
+
+<div class="shop-page shop-page-light">
+    <div class="container py-5">
+        <div class="shop-shell">
+            <div class="shop-header-row">
+                <div>
+                    <div class="shop-section-label">Costa Serena</div>
+                    <h1 class="shop-section-title">Adataim</h1>
+                    <p class="shop-section-subtitle">
+                        Itt tudod megtekinteni és módosítani a saját adataidat.
+                    </p>
+                </div>
+
+                <a asp-page="/Index" class="costa-outline-btn">Vissza a főoldalra</a>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+            {
+                <div class="alert alert-success rounded-4 shadow-sm mb-4">
+                    @Model.SuccessMessage
+                </div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger rounded-4 shadow-sm mb-4">
+                    @Model.ErrorMessage
+                </div>
+            }
+
+            <div class="shop-panel">
+                <form method="post">
+                    <input type="hidden" asp-for="Vendeg.Id" />
+                    <input type="hidden" asp-for="Vendeg.IdentityUserId" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.BejelentkezettEmail))
+                    {
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Bejelentkezett e-mail</label>
+                            <input class="form-control" value="@Model.BejelentkezettEmail" readonly />
+                        </div>
+                    }
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Vendeg.Nev" class="form-label fw-semibold">Név</label>
+                            <input asp-for="Vendeg.Nev" class="form-control" />
+                            <span asp-validation-for="Vendeg.Nev" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Vendeg.SzemelyiIgazolvanySzam" class="form-label fw-semibold">Személyi igazolvány szám</label>
+                            <input asp-for="Vendeg.SzemelyiIgazolvanySzam" class="form-control" />
+                            <span asp-validation-for="Vendeg.SzemelyiIgazolvanySzam" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Vendeg.IranyitoSzam" class="form-label fw-semibold">Irányítószám</label>
+                            <input asp-for="Vendeg.IranyitoSzam" class="form-control" />
+                            <span asp-validation-for="Vendeg.IranyitoSzam" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-8">
+                            <label asp-for="Vendeg.Varos" class="form-label fw-semibold">Város</label>
+                            <input asp-for="Vendeg.Varos" class="form-control" />
+                            <span asp-validation-for="Vendeg.Varos" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-8">
+                            <label asp-for="Vendeg.Utca" class="form-label fw-semibold">Utca</label>
+                            <input asp-for="Vendeg.Utca" class="form-control" />
+                            <span asp-validation-for="Vendeg.Utca" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Vendeg.Hazszam" class="form-label fw-semibold">Házszám</label>
+                            <input asp-for="Vendeg.Hazszam" class="form-control" />
+                            <span asp-validation-for="Vendeg.Hazszam" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-3 flex-wrap">
+                        <button type="submit" class="btn btn-dark rounded-pill px-4">
+                            Adatok mentése
+                        </button>
+
+                        <a asp-page="/Foglalasaim" class="costa-outline-btn">
+                            Foglalásaim
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -125,18 +125,17 @@
 
     <div class="offcanvas-body">
         <div class="vstack gap-2">
+            @if (AuthSession.IsSignedIn)
+            {
+                <a class="link-dark text-decoration-none" asp-page="/Vendeg/Index">Adataim</a>
+            }
             <a class="link-dark text-decoration-none" asp-page="/Index">Főoldal</a>
             <a class="link-dark text-decoration-none" asp-page="/Contact">Kapcsolat</a>
             <a class="link-dark text-decoration-none" asp-page="/Ertekelesek">Értékelések</a>
             <a class="link-dark text-decoration-none" asp-page="/Programok">Programok</a>
-
-            @if (AuthSession.IsSignedIn)
-            {
-                <a class="link-dark text-decoration-none" asp-page="/Spa">Wellness & Spa</a>
-            }
-
+            <a class="link-dark text-decoration-none" asp-page="/Spa">Wellness & Spa</a>
             <a class="link-dark text-decoration-none" asp-page="/Szobak/Index">Szobák megtekintése</a>
-            <a class="link-dark text-decoration-none" asp-page="/Shop/Index">Webshop</a>
+            <a class="link-dark text-decoration-none" asp-page="/Shop/Index">Shop</a>
             <a class="link-dark text-decoration-none d-flex align-items-center justify-content-between" asp-page="/Shop/Cart">
                 <span>Kosár</span>
                 <span class="offcanvas-cart-badge">@cartCount</span>
@@ -161,12 +160,9 @@
             <a class="link-dark text-decoration-none" asp-page="/Contact" asp-fragment="services">Szolgáltatások</a>
             <a class="link-dark text-decoration-none" asp-page="/Contact" asp-fragment="map">Térkép</a>
 
-            @if (AuthSession.IsSignedIn)
-            {
-                <a class="link-dark text-decoration-none" asp-page="/Spa" asp-fragment="kezelesek">Spa kezelések</a>
-                <a class="link-dark text-decoration-none" asp-page="/Spa" asp-fragment="galeria">Spa galéria</a>
-                <a class="link-dark text-decoration-none" asp-page="/Spa" asp-fragment="arak">Spa árak</a>
-            }
+            <a class="link-dark text-decoration-none" asp-page="/Spa" asp-fragment="kezelesek">Spa kezelések</a>
+            <a class="link-dark text-decoration-none" asp-page="/Spa" asp-fragment="galeria">Spa galéria</a>
+            <a class="link-dark text-decoration-none" asp-page="/Spa" asp-fragment="arak">Spa árak</a>
 
             <a class="link-dark text-decoration-none" asp-page="/Ertekelesek" asp-fragment="ertekeles">Vélemények</a>
             <a class="link-dark text-decoration-none" asp-page="/Ertekelesek" asp-fragment="kapcsolat">Kapcsolat blokk</a>

@@ -483,6 +483,11 @@ a.text-white-50 {
 .booking-popup-text {
     font-size: 1rem;
     color: #555;
+    white-space: pre-line;
+    line-height: 1.8;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 300px;
 }
 
 @keyframes popupFadeIn {

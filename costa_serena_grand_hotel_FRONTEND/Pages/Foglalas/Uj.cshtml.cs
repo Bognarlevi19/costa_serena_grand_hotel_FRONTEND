@@ -29,6 +29,9 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
         [TempData]
         public string? SuccessMessage { get; set; }
 
+        [TempData]
+        public string? PopupTitle { get; set; }
+
         [BindProperty]
         public string Nev { get; set; } = string.Empty;
 
@@ -109,14 +112,20 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
             {
                 await _vendegekApi.UpdateOwnAsync(vendeg);
 
-                await _foglalasokApi.CreateAsync(new FoglalasDto
+                var result = await _foglalasokApi.CreateAsync(new FoglalasDto
                 {
                     SzobaId = szobaId,
                     Mettol = Mettol,
                     Meddig = Meddig
                 });
 
-                SuccessMessage = "Köszönjük a foglalást!";
+                PopupTitle = "Sikeres foglalás";
+                SuccessMessage =
+                    "Köszönjük a foglalását!\n\n" +
+                    $"Fizetendõ összeg: {result.FizetendoOsszeg:N0} Ft\n" +
+                    "Fizetés módja: személyesen a recepción\n" +
+                    $"Foglalási azonosító: #{result.Id}";
+
                 return RedirectToPage("/Index");
             }
             catch (Exception ex)

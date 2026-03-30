@@ -25,7 +25,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
                 .GetFromJsonAsync<FoglalasDto>($"api/Foglalas/{id}");
         }
 
-        public async Task CreateAsync(FoglalasDto dto)
+        public async Task<FoglalasEredmenyDto> CreateAsync(FoglalasDto dto)
         {
             var client = _f.CreateClient("costa_serena_grand_hotel_API");
 
@@ -40,6 +40,13 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 
                 throw new Exception($"Foglalási hiba: {hiba}");
             }
+
+            var result = await response.Content.ReadFromJsonAsync<FoglalasEredmenyDto>();
+
+            if (result == null)
+                throw new Exception("A foglalás sikerült, de az API nem adott vissza érvényes választ.");
+
+            return result;
         }
 
         public async Task UpdateAsync(int id, FoglalasDto dto)
@@ -57,6 +64,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 
             response.EnsureSuccessStatusCode();
         }
+
         public async Task<List<SajatFoglalasDto>> GetOwnAsync()
         {
             return await _f.CreateClient("costa_serena_grand_hotel_API")

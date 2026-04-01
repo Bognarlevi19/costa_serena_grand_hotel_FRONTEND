@@ -1,0 +1,75 @@
+﻿@page "{id:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Vendegek.EditModel
+@{
+    ViewData["Title"] = "Vendég szerkesztése";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        @{
+            ViewData["AdminTitle"] = "Vendég szerkesztése";
+            ViewData["AdminSubTitle"] = "A kiválasztott vendég adatainak módosítása.";
+            ViewData["AdminBackPage"] = "/Admin/Index";
+        }
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <div class="admin-crud-card">
+            <form method="post" class="row g-4">
+                <input asp-for="Vendeg.Id" type="hidden" />
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Vendeg.Nev" class="form-label fw-semibold">Név</label>
+                    <input asp-for="Vendeg.Nev" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Vendeg.Nev" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Vendeg.SzemelyiIgazolvanySzam" class="form-label fw-semibold">Személyi igazolvány szám</label>
+                    <input asp-for="Vendeg.SzemelyiIgazolvanySzam" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Vendeg.SzemelyiIgazolvanySzam" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Vendeg.IranyitoSzam" class="form-label fw-semibold">Irányítószám</label>
+                    <input asp-for="Vendeg.IranyitoSzam" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Vendeg.IranyitoSzam" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Vendeg.Varos" class="form-label fw-semibold">Város</label>
+                    <input asp-for="Vendeg.Varos" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Vendeg.Varos" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Vendeg.Hazszam" class="form-label fw-semibold">Házszám</label>
+                    <input asp-for="Vendeg.Hazszam" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Vendeg.Hazszam" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Vendeg.Utca" class="form-label fw-semibold">Utca</label>
+                    <input asp-for="Vendeg.Utca" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Vendeg.Utca" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 d-flex flex-wrap gap-2 pt-2">
+                    <button type="submit" class="btn btn-dark rounded-pill px-4">Mentés</button>
+                    <a asp-page="/Admin/Vendegek/Index" class="btn btn-outline-dark rounded-pill px-4">Vissza a listához</a>
+                    <a asp-page="/Admin/Index" class="btn btn-outline-secondary rounded-pill px-4">Admin menü</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

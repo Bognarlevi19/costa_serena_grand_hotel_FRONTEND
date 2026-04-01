@@ -34,19 +34,32 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
             if (!response.IsSuccessStatusCode)
             {
                 var hiba = await response.Content.ReadAsStringAsync();
-
-                if (string.IsNullOrWhiteSpace(hiba))
-                    throw new Exception($"Foglalási hiba: {(int)response.StatusCode} {response.ReasonPhrase}");
-
-                throw new Exception($"Foglalási hiba: {hiba}");
+                throw new Exception(string.IsNullOrWhiteSpace(hiba) ? "A foglalás mentése nem sikerült." : hiba);
             }
 
             var result = await response.Content.ReadFromJsonAsync<FoglalasEredmenyDto>();
 
             if (result == null)
-                throw new Exception("A foglalás sikerült, de az API nem adott vissza érvényes választ.");
+                throw new Exception("A foglalás mentése sikerült, de az API nem adott vissza érvényes választ.");
 
             return result;
+        }
+
+        public async Task CreateAdminAsync(FoglalasDto dto)
+        {
+            var payload = new
+            {
+                dto.SzobaId,
+                dto.VendegId,
+                dto.Mettol,
+                dto.Meddig,
+                dto.Fizetett
+            };
+
+            var response = await _f.CreateClient("costa_serena_grand_hotel_API")
+                .PostAsJsonAsync("api/Foglalas/admin", payload);
+
+            await EnsureSuccess(response);
         }
 
         public async Task UpdateAsync(int id, FoglalasDto dto)
@@ -54,7 +67,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
             var response = await _f.CreateClient("costa_serena_grand_hotel_API")
                 .PutAsJsonAsync($"api/Foglalas/{id}", dto);
 
-            response.EnsureSuccessStatusCode();
+            await EnsureSuccess(response);
         }
 
         public async Task DeleteAsync(int id)
@@ -62,7 +75,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
             var response = await _f.CreateClient("costa_serena_grand_hotel_API")
                 .DeleteAsync($"api/Foglalas/{id}");
 
-            response.EnsureSuccessStatusCode();
+            await EnsureSuccess(response);
         }
 
         public async Task<List<SajatFoglalasDto>> GetOwnAsync()
@@ -70,6 +83,15 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
             return await _f.CreateClient("costa_serena_grand_hotel_API")
                 .GetFromJsonAsync<List<SajatFoglalasDto>>("api/Foglalas/sajat")
                 ?? new List<SajatFoglalasDto>();
+        }
+
+        private static async Task EnsureSuccess(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+                return;
+
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception(string.IsNullOrWhiteSpace(error) ? "A művelet nem sikerült." : error);
         }
     }
 }

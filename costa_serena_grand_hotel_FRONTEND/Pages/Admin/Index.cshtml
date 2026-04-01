@@ -1,0 +1,164 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin kezdőlap";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <div class="mb-4">
+            <div class="small text-uppercase ls text-body-secondary mb-2">Costa Serena Admin</div>
+            <h1 class="display-6 fw-semibold mb-1">Kezdőlap</h1>
+            <p class="text-body-secondary mb-0">Válassz egy admin felületet vagy dashboard funkciót.</p>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        @if (Model.Stats != null)
+        {
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="admin-crud-card h-100">
+                        <div class="small text-body-secondary mb-2">Felhasználók</div>
+                        <div class="display-6 fw-bold">@Model.Stats.TotalUsers</div>
+                        <div class="small text-body-secondary">Összes regisztrált user</div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="admin-crud-card h-100">
+                        <div class="small text-body-secondary mb-2">Aktív ma</div>
+                        <div class="display-6 fw-bold">@Model.Stats.ActiveUsersToday</div>
+                        <div class="small text-body-secondary">Ma aktív felhasználók</div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="admin-crud-card h-100">
+                        <div class="small text-body-secondary mb-2">Összes log</div>
+                        <div class="display-6 fw-bold">@Model.Stats.TotalLogs</div>
+                        <div class="small text-body-secondary">Naplózott események</div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="admin-crud-card h-100">
+                        <div class="small text-body-secondary mb-2">Sikertelen belépések</div>
+                        <div class="display-6 fw-bold">@Model.Stats.FailedLoginAttemptsToday</div>
+                        <div class="small text-body-secondary">Mai sikertelen próbálkozások</div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="admin-dashboard-group-title">CRUD felületek</div>
+        <div class="row g-3">
+            <div class="col-12 col-md-6 col-xl-4">
+                <a asp-page="/Admin/Foglalasok/Index" class="admin-link-card text-decoration-none h-100">
+                    <strong>Foglalások</strong>
+                    <span>Foglalások listázása, szerkesztése, törlése, hozzáadása</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-4">
+                <a asp-page="/Admin/Vendegek/Index" class="admin-link-card text-decoration-none h-100">
+                    <strong>Vendégek</strong>
+                    <span>Vendég adatok kezelése</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-4">
+                <a asp-page="/Admin/Szobak/Index" class="admin-link-card text-decoration-none h-100">
+                    <strong>Szobák</strong>
+                    <span>Szobák kezelése és képfeltöltés</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-4">
+                <a asp-page="/Admin/SzobaKategoriak/Index" class="admin-link-card text-decoration-none h-100">
+                    <strong>Szobakategóriák</strong>
+                    <span>Szobakategóriák kezelése és képfeltöltés</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-4">
+                <a asp-page="/Admin/Termekek/Index" class="admin-link-card text-decoration-none h-100">
+                    <strong>Termékek</strong>
+                    <span>Termékek kezelése és képfeltöltés</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-4">
+                <a asp-page="/Admin/Rendelesek/Index" class="admin-link-card text-decoration-none h-100">
+                    <strong>Rendelések</strong>
+                    <span>Rendelések módosítása, törlése, elküldött állapot</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-dashboard-group-title">Dashboard és admin nézetek</div>
+        <div class="row g-3">
+            <div class="col-12 col-md-6 col-xl-3">
+                <a asp-page="/Admin/Users" class="admin-link-card text-decoration-none h-100">
+                    <strong>Felhasználók</strong>
+                    <span>Regisztrált userek és aktivitás</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <a asp-page="/Admin/Logs" class="admin-link-card text-decoration-none h-100">
+                    <strong>Logok</strong>
+                    <span>Összes naplóbejegyzés</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <a asp-page="/Admin/FailedLogins" class="admin-link-card text-decoration-none h-100">
+                    <strong>Sikertelen belépések</strong>
+                    <span>Hibás bejelentkezések listája</span>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <a asp-page="/Admin/IpStats" class="admin-link-card text-decoration-none h-100">
+                    <strong>IP statisztikák</strong>
+                    <span>IP alapú aktivitási összesítés</span>
+                </a>
+            </div>
+        </div>
+
+        @if (Model.Stats?.TopActions?.Any() == true)
+        {
+            <div class="admin-dashboard-group-title">Leggyakoribb műveletek</div>
+
+            <div class="admin-crud-card">
+                <div class="table-responsive">
+                    <table class="table admin-table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Entitás</th>
+                                <th>Művelet</th>
+                                <th class="text-end">Darab</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Stats.TopActions)
+                            {
+                                <tr>
+                                    <td>@item.EntityType</td>
+                                    <td>@item.Action</td>
+                                    <td class="text-end fw-semibold">@item.Count</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</section>

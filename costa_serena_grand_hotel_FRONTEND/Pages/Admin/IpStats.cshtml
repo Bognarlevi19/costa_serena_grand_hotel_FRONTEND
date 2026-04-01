@@ -1,0 +1,78 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.IpStatsModel
+@{
+    ViewData["Title"] = "IP statisztikák";
+}
+
+<section class="section-paper py-5">
+    <div class="container py-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <div class="small text-uppercase ls text-body-secondary mb-2">Costa Serena Admin</div>
+                <h1 class="display-6 fw-semibold mb-1">IP statisztikák</h1>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-page="/Admin/Index" class="btn btn-outline-dark rounded-pill px-4">← Vissza</a>
+                <a asp-page="/Admin/Logs" class="btn btn-outline-secondary rounded-pill px-4">Logok</a>
+                <a asp-page="/Admin/FailedLogins" class="btn btn-outline-secondary rounded-pill px-4">Sikertelen belépések</a>
+            </div>
+        </div>
+
+        <div class="glass rounded-5 p-4 mb-4">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-12 col-md-3">
+                    <label asp-for="Days" class="form-label">Napok száma</label>
+                    <input asp-for="Days" type="number" min="1" class="form-control form-soft rounded-4" />
+                </div>
+                <div class="col-12 col-md-3">
+                    <button type="submit" class="btn btn-dark rounded-pill px-4">Frissítés</button>
+                </div>
+            </form>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm">@Model.ErrorMessage</div>
+        }
+        else
+        {
+            <div class="glass rounded-5 p-4">
+                <div class="table-responsive">
+                    <table class="table align-middle admin-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>IP cím</th>
+                                <th class="text-end">Kérések</th>
+                                <th class="text-end">Sikertelen belépés</th>
+                                <th class="text-end">Egyedi userek</th>
+                                <th>Utolsó aktivitás</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Stats.Any())
+                            {
+                                @foreach (var item in Model.Stats)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@item.IpAddress</td>
+                                        <td class="text-end">@item.TotalRequests</td>
+                                        <td class="text-end">@item.FailedLogins</td>
+                                        <td class="text-end">@item.UniqueUsers</td>
+                                        <td>@(item.LastActivity?.ToLocalTime().ToString("yyyy.MM.dd. HH:mm:ss") ?? "-")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-body-secondary py-4">Nincs megjeleníthető adat.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</section>

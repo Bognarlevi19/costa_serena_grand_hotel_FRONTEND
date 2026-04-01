@@ -1,0 +1,105 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.LogsModel
+@{
+    ViewData["Title"] = "Logok";
+}
+
+<section class="section-paper py-5">
+    <div class="container py-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <div class="small text-uppercase ls text-body-secondary mb-2">Costa Serena Admin</div>
+                <h1 class="display-6 fw-semibold mb-1">Logok</h1>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-page="/Admin/Index" class="btn btn-outline-dark rounded-pill px-4">← Vissza</a>
+                <a asp-page="/Admin/FailedLogins" class="btn btn-outline-secondary rounded-pill px-4">Sikertelen belépések</a>
+                <a asp-page="/Admin/IpStats" class="btn btn-outline-secondary rounded-pill px-4">IP statisztikák</a>
+            </div>
+        </div>
+
+        <div class="glass rounded-5 p-4 mb-4">
+            <form method="get" class="row g-3">
+                <div class="col-12 col-md-4">
+                    <label asp-for="UserEmail" class="form-label">Felhasználó e-mail</label>
+                    <input asp-for="UserEmail" class="form-control form-soft rounded-4" />
+                </div>
+                <div class="col-12 col-md-3">
+                    <label asp-for="EntityType" class="form-label">Entitás</label>
+                    <input asp-for="EntityType" class="form-control form-soft rounded-4" />
+                </div>
+                <div class="col-12 col-md-3">
+                    <label asp-for="IsAuthFailure" class="form-label">Auth hiba</label>
+                    <select asp-for="IsAuthFailure" class="form-select form-soft rounded-4">
+                        <option value="">Mindegy</option>
+                        <option value="true">Igen</option>
+                        <option value="false">Nem</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-dark w-100 rounded-pill">Szűrés</button>
+                </div>
+            </form>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm">@Model.ErrorMessage</div>
+        }
+        else if (Model.Result != null)
+        {
+            <div class="glass rounded-5 p-4">
+                <div class="table-responsive">
+                    <table class="table align-middle admin-table mb-4">
+                        <thead>
+                            <tr>
+                                <th>Időpont</th>
+                                <th>Felhasználó</th>
+                                <th>Metódus</th>
+                                <th>Útvonal</th>
+                                <th>Státusz</th>
+                                <th>Entitás</th>
+                                <th>Művelet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var log in Model.Result.Logs)
+                            {
+                                <tr>
+                                    <td>@log.Timestamp.ToLocalTime().ToString("yyyy.MM.dd. HH:mm:ss")</td>
+                                    <td>@(log.UserEmail ?? "-")</td>
+                                    <td>@log.HttpMethod</td>
+                                    <td>@log.Path</td>
+                                    <td>@log.StatusCode</td>
+                                    <td>@(log.EntityType ?? "-")</td>
+                                    <td>@(log.Action ?? "-")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a class="btn btn-outline-dark rounded-pill px-4 @(Model.Result.Page <= 1 ? "disabled" : "")"
+                       asp-page="/Admin/Logs"
+                       asp-route-UserEmail="@Model.UserEmail"
+                       asp-route-EntityType="@Model.EntityType"
+                       asp-route-IsAuthFailure="@Model.IsAuthFailure"
+                       asp-route-PageNumber="@(Model.Result.Page - 1)">
+                        Előző
+                    </a>
+
+                    <a class="btn btn-outline-dark rounded-pill px-4 @(Model.Result.Page >= Model.Result.TotalPages ? "disabled" : "")"
+                       asp-page="/Admin/Logs"
+                       asp-route-UserEmail="@Model.UserEmail"
+                       asp-route-EntityType="@Model.EntityType"
+                       asp-route-IsAuthFailure="@Model.IsAuthFailure"
+                       asp-route-PageNumber="@(Model.Result.Page + 1)">
+                        Következő
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</section>

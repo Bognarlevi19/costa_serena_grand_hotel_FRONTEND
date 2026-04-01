@@ -1,0 +1,61 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.SzobaKategoriak.CreateModel
+@{
+    ViewData["Title"] = "Új szobakategória";
+    ViewData["AdminTitle"] = "Új szobakategória";
+    ViewData["AdminSubTitle"] = "Új kategória létrehozása képfeltöltéssel.";
+    ViewData["AdminBackPage"] = "/Admin/SzobaKategoriak/Index";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@Model.ErrorMessage</div>
+        }
+
+        <div class="admin-crud-card">
+            <form method="post" enctype="multipart/form-data">
+                <div class="admin-form-grid">
+                    <div class="admin-col-6">
+                        <label asp-for="Kategoria.Nev" class="form-label">Név</label>
+                        <input asp-for="Kategoria.Nev" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Kategoria.Darab" class="form-label">Darab</label>
+                        <input asp-for="Kategoria.Darab" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-12">
+                        <label asp-for="Kategoria.Leiras" class="form-label">Leírás</label>
+                        <textarea asp-for="Kategoria.Leiras" class="form-control form-soft rounded-4" rows="4"></textarea>
+                    </div>
+
+                    <div class="admin-col-12">
+                        <label class="form-label">Képek feltöltése</label>
+                        <div class="admin-image-dropzone"
+                             data-dropzone
+                             data-input="#kategoriakUpload"
+                             data-list="#kategoriakUploadList">
+                            <div class="admin-image-dropzone-title">Húzd ide a képeket</div>
+                            <div class="admin-image-dropzone-sub">vagy kattints a kijelöléshez</div>
+                            <input id="kategoriakUpload" name="UploadedImages" type="file" multiple accept=".jpg,.jpeg,.png,.webp" class="d-none" />
+                            <div id="kategoriakUploadList" class="admin-upload-list"></div>
+                        </div>
+                        <div class="admin-help mt-2">
+                            A képek a FRONTEND wwwroot/kepek/SzobaKategoriak mappába kerülnek.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-form-actions">
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Mentés</button>
+                    <a asp-page="/Admin/SzobaKategoriak/Index" class="btn btn-outline-secondary rounded-pill px-4">Mégse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

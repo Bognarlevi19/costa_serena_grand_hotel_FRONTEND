@@ -1,0 +1,71 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Szobak.IndexModel
+@{
+    ViewData["Title"] = "Szobák";
+    ViewData["AdminTitle"] = "Szobák";
+    ViewData["AdminSubTitle"] = "Szobák listája, szerkesztése, törlése és hozzáadása.";
+    ViewData["AdminBackPage"] = "/Admin/Index";
+    ViewData["AdminAddPage"] = "/Admin/Szobak/Create";
+    ViewData["AdminAddText"] = "Új szoba hozzáadása";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
+
+        @if (TempData["AdminError"] != null)
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@TempData["AdminError"]</div>
+        }
+
+        <div class="admin-crud-card">
+            <div class="table-responsive">
+                <table class="table admin-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Név</th>
+                            <th>Szám</th>
+                            <th>Emelet</th>
+                            <th>Ár</th>
+                            <th>Férőhely</th>
+                            <th>Kategória</th>
+                            <th class="admin-actions-cell">Műveletek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Szobak.Any())
+                        {
+                            @foreach (var item in Model.Szobak)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Nev</td>
+                                    <td>@item.Szam</td>
+                                    <td>@item.Emelet</td>
+                                    <td>@item.Ar Ft</td>
+                                    <td>@item.Ferohely</td>
+                                    <td>@item.KategoriaNev</td>
+                                    <td class="admin-actions-cell">
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <a asp-page="/Admin/Szobak/Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Szerkesztés</a>
+                                            <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Biztosan törlöd?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">Törlés</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="admin-empty">Nincs megjeleníthető adat.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

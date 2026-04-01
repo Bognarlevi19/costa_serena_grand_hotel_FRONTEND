@@ -1,0 +1,80 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.UsersModel
+@{
+    ViewData["Title"] = "Felhasználók";
+}
+
+<section class="section-paper py-5">
+    <div class="container py-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <div class="small text-uppercase ls text-body-secondary mb-2">Costa Serena Admin</div>
+                <h1 class="display-6 fw-semibold mb-1">Felhasználók</h1>
+                <p class="text-body-secondary mb-0">Regisztrált felhasználók és aktivitásuk.</p>
+            </div>
+
+            <div>
+                <a asp-page="/Admin/Index" class="btn btn-outline-dark rounded-pill px-4">← Vissza a dashboardra</a>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@Model.ErrorMessage</div>
+        }
+
+        <div class="glass rounded-5 p-4">
+            <div class="table-responsive">
+                <table class="table align-middle admin-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>E-mail</th>
+                            <th>Szerepkörök</th>
+                            <th>Utolsó aktivitás</th>
+                            <th class="text-end">Összes művelet</th>
+                            <th class="text-end">Sikertelen belépés</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Users.Any())
+                        {
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">@user.Email</div>
+                                        <div class="small text-body-secondary">@user.UserName</div>
+                                    </td>
+                                    <td>
+                                        @foreach (var role in user.Roles)
+                                        {
+                                            <span class="badge @(role == "Admin" ? "bg-danger" : "bg-warning text-dark") me-1">@role</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div>@(user.LastActivity?.ToLocalTime().ToString("yyyy.MM.dd. HH:mm") ?? "-")</div>
+                                        <div class="small text-body-secondary">@user.LastActivityDescription</div>
+                                    </td>
+                                    <td class="text-end fw-semibold">@user.TotalActions</td>
+                                    <td class="text-end fw-semibold">@user.FailedLoginAttempts</td>
+                                    <td class="text-end">
+                                        <a asp-page="/Admin/UserDetails" asp-route-id="@user.UserId" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                                            Részletek
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center text-body-secondary py-4">Nincs megjeleníthető adat.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

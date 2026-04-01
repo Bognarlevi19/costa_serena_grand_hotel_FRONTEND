@@ -1,0 +1,43 @@
+﻿@page "{id:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Foglalasok.EditModel
+@{
+    ViewData["Title"] = "Foglalás szerkesztése";
+}
+
+<div class="container py-4">
+    <h1 class="mb-4">Foglalás szerkesztése</h1>
+
+    <form method="post" class="row g-3">
+        <input asp-for="Foglalas.Id" type="hidden" />
+
+        <div class="col-md-6">
+            <label asp-for="Foglalas.SzobaId" class="form-label"></label>
+            <input asp-for="Foglalas.SzobaId" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Foglalas.VendegId" class="form-label"></label>
+            <input asp-for="Foglalas.VendegId" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Foglalas.Mettol" class="form-label"></label>
+            <input asp-for="Foglalas.Mettol" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Foglalas.Meddig" class="form-label"></label>
+            <input asp-for="Foglalas.Meddig" type="date" class="form-control" />
+        </div>
+
+        <div class="col-12 form-check ms-2">
+            <input asp-for="Foglalas.Fizetett" class="form-check-input" />
+            <label asp-for="Foglalas.Fizetett" class="form-check-label">Fizetett</label>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Mentés</button>
+            <a asp-page="/Admin/Foglalasok/Index" class="btn btn-secondary">Vissza</a>
+        </div>
+    </form>
+</div>

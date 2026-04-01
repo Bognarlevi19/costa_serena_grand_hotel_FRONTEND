@@ -1,0 +1,22 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Errors.ForbiddenModel
+@{
+    ViewData["Title"] = "Nincs jogosultság";
+}
+
+<section class="section-soft py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-7">
+                <div class="glass rounded-5 p-4 p-md-5 text-center">
+                    <div class="small text-uppercase ls text-body-secondary mb-3">Costa Serena Admin</div>
+                    <h1 class="display-6 fw-semibold mb-3">Nincs jogosultságod ehhez az oldalhoz</h1>
+                    <p class="text-body-secondary mb-4">
+                        Ez az oldal csak adminisztrátor számára érhető el.
+                    </p>
+                    <a asp-page="/Index" class="btn btn-dark rounded-pill px-4">Vissza a főoldalra</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

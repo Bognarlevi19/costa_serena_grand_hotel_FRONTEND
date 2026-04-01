@@ -95,10 +95,19 @@
                                 <label asp-for="Password" class="form-label small text-uppercase ls text-body-secondary mb-2">
                                     Jelszó
                                 </label>
-                                <input asp-for="Password"
-                                       class="form-control form-control-lg form-soft rounded-4"
-                                       type="password"
-                                       placeholder="••••••••" />
+
+                                <div class="password-toggle">
+                                    <input asp-for="Password"
+                                           class="form-control form-control-lg form-soft rounded-4"
+                                           type="password"
+                                           placeholder="••••••••" />
+                                    <button type="button"
+                                            class="password-toggle-btn"
+                                            data-password-toggle
+                                            aria-label="Jelszó megjelenítése">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                                 <span asp-validation-for="Password" class="text-danger small"></span>
                             </div>
 

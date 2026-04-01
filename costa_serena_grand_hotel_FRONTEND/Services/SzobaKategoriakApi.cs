@@ -24,5 +24,29 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
             return await _f.CreateClient("costa_serena_grand_hotel_API")
                 .GetFromJsonAsync<SzobaKategoriaDto>($"api/SzobaKategoria/{id}");
         }
+
+        public async Task CreateAsync(SzobaKategoriaDto dto)
+        {
+            var response = await _f.CreateClient("costa_serena_grand_hotel_API")
+                .PostAsJsonAsync("api/SzobaKategoria", dto);
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateAsync(int id, SzobaKategoriaDto dto)
+        {
+            var response = await _f.CreateClient("costa_serena_grand_hotel_API")
+                .PutAsJsonAsync($"api/SzobaKategoria/{id}", dto);
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var response = await _f.CreateClient("costa_serena_grand_hotel_API")
+                .DeleteAsync($"api/SzobaKategoria/{id}");
+
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

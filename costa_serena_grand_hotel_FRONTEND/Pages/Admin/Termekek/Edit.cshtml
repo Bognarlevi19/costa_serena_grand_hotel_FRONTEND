@@ -1,0 +1,81 @@
+﻿@page "{id:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Termekek.EditModel
+@{
+    ViewData["Title"] = "Termék szerkesztése";
+    ViewData["AdminTitle"] = "Termék szerkesztése";
+    ViewData["AdminSubTitle"] = "Meglévő termék módosítása.";
+    ViewData["AdminBackPage"] = "/Admin/Termekek/Index";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@Model.ErrorMessage</div>
+        }
+
+        <div class="admin-crud-card">
+            <form method="post" enctype="multipart/form-data">
+                <input asp-for="Termek.Id" type="hidden" />
+                <input asp-for="Termek.KepUrl" type="hidden" />
+
+                <div class="admin-form-grid">
+                    <div class="admin-col-6">
+                        <label asp-for="Termek.Nev" class="form-label">Név</label>
+                        <input asp-for="Termek.Nev" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Termek.Kategoria" class="form-label">Kategória</label>
+                        <input asp-for="Termek.Kategoria" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Termek.Ar" class="form-label">Ár</label>
+                        <input asp-for="Termek.Ar" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <div class="form-check mt-4">
+                            <input asp-for="Termek.Aktiv" class="form-check-input" />
+                            <label asp-for="Termek.Aktiv" class="form-check-label">Aktív</label>
+                        </div>
+                    </div>
+
+                    <div class="admin-col-12">
+                        <label asp-for="Termek.Leiras" class="form-label">Leírás</label>
+                        <textarea asp-for="Termek.Leiras" class="form-control form-soft rounded-4" rows="4"></textarea>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Termek.KepUrl))
+                    {
+                        <div class="admin-col-12">
+                            <div class="admin-help mb-2">Jelenlegi kép:</div>
+                            <img src="@Model.Termek.KepUrl" alt="Termékkép" style="max-width:220px;border-radius:16px;" />
+                        </div>
+                    }
+
+                    <div class="admin-col-12">
+                        <label class="form-label">Új kép feltöltése</label>
+                        <div class="admin-image-dropzone"
+                             data-dropzone
+                             data-input="#termekEditUpload"
+                             data-list="#termekEditUploadList">
+                            <div class="admin-image-dropzone-title">Húzd ide a képet</div>
+                            <div class="admin-image-dropzone-sub">vagy kattints a kijelöléshez</div>
+                            <input id="termekEditUpload" name="UploadedImage" type="file" accept=".jpg,.jpeg,.png,.webp" class="d-none" />
+                            <div id="termekEditUploadList" class="admin-upload-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-form-actions">
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Mentés</button>
+                    <a asp-page="/Admin/Termekek/Index" class="btn btn-outline-secondary rounded-pill px-4">Vissza</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

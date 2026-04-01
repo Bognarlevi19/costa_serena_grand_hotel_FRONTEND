@@ -23,13 +23,17 @@ else
                class="btn btn-outline-dark rounded-pill px-4 mb-4">
                 Vissza
             </a>
+
             <div class="row g-4 align-items-start">
                 <div class="col-lg-7">
                     <div class="glass border border-dark border-opacity-10 rounded-4 overflow-hidden mb-4">
                         <div class="detail-main-image d-flex align-items-center justify-content-center">
                             @if (!string.IsNullOrWhiteSpace(foKep))
                             {
-                                <img src="@foKep" alt="@Model.Szoba.Nev" class="w-100 h-100 object-fit-cover" />
+                                <img src="@foKep"
+                                     alt="@Model.Szoba.Nev"
+                                     class="w-100 h-100 object-fit-cover clickable-img"
+                                     onclick="openRoomImageModal('@foKep')" />
                             }
                             else
                             {
@@ -49,7 +53,10 @@ else
                                     <div class="detail-gallery-image d-flex align-items-center justify-content-center">
                                         @if (i < tobbiKep.Count && !string.IsNullOrWhiteSpace(tobbiKep[i]))
                                         {
-                                            <img src="@tobbiKep[i]" alt="További kép @(i + 1)" class="w-100 h-100 object-fit-cover" />
+                                            <img src="@tobbiKep[i]"
+                                                 alt="További kép @(i + 1)"
+                                                 class="w-100 h-100 object-fit-cover clickable-img"
+                                                 onclick="openRoomImageModal('@tobbiKep[i]')" />
                                         }
                                         else
                                         {
@@ -124,6 +131,10 @@ else
     </section>
 }
 
+<div id="roomImageModal" class="img-modal" onclick="closeRoomImageModal()">
+    <img id="roomImageModalImg" src="" alt="Nagyított szobakép" />
+</div>
+
 <style>
     .detail-main-image {
         height: 460px;
@@ -134,4 +145,50 @@ else
         height: 160px;
         background: linear-gradient(135deg, #f6f1ea 0%, #e9dfd3 100%);
     }
+
+    @@media (max-width: 991.98px) {
+        .detail-main-image {
+            height: 360px;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .detail-main-image {
+            height: 240px;
+        }
+
+        .detail-gallery-image {
+            height: 120px;
+        }
+    }
 </style>
+
+<script>
+    function openRoomImageModal(imageUrl) {
+        const modal = document.getElementById("roomImageModal");
+        const modalImg = document.getElementById("roomImageModalImg");
+
+        if (!modal || !modalImg) return;
+
+        modalImg.src = imageUrl;
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeRoomImageModal() {
+        const modal = document.getElementById("roomImageModal");
+        const modalImg = document.getElementById("roomImageModalImg");
+
+        if (!modal || !modalImg) return;
+
+        modal.style.display = "none";
+        modalImg.src = "";
+        document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            closeRoomImageModal();
+        }
+    });
+</script>

@@ -1,0 +1,69 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Foglalasok.CreateModel
+@{
+    ViewData["Title"] = "Új foglalás";
+    ViewData["AdminTitle"] = "Új foglalás";
+    ViewData["AdminSubTitle"] = "Új foglalás létrehozása.";
+    ViewData["AdminBackPage"] = "/Admin/Foglalasok/Index";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@Model.ErrorMessage</div>
+        }
+
+        <div class="admin-crud-card">
+            <form method="post">
+                <div class="admin-form-grid">
+                    <div class="admin-col-6">
+                        <label asp-for="Foglalas.SzobaId" class="form-label">Szoba</label>
+                        <select asp-for="Foglalas.SzobaId" class="form-select form-soft rounded-4">
+                            <option value="">-- Válassz szobát --</option>
+                            @foreach (var item in Model.Szobak)
+                            {
+                                <option value="@item.Id">@item.Nev (@item.Szam)</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Foglalas.VendegId" class="form-label">Vendég</label>
+                        <select asp-for="Foglalas.VendegId" class="form-select form-soft rounded-4">
+                            <option value="">-- Válassz vendéget --</option>
+                            @foreach (var item in Model.Vendegek)
+                            {
+                                <option value="@item.Id">@item.Nev</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Foglalas.Mettol" class="form-label">Érkezés</label>
+                        <input asp-for="Foglalas.Mettol" asp-format="{0:yyyy-MM-dd}" type="date" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Foglalas.Meddig" class="form-label">Távozás</label>
+                        <input asp-for="Foglalas.Meddig" asp-format="{0:yyyy-MM-dd}" type="date" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-12">
+                        <div class="form-check">
+                            <input asp-for="Foglalas.Fizetett" class="form-check-input" />
+                            <label asp-for="Foglalas.Fizetett" class="form-check-label">Fizetett</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-form-actions">
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Mentés</button>
+                    <a asp-page="/Admin/Foglalasok/Index" class="btn btn-outline-secondary rounded-pill px-4">Mégse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

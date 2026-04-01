@@ -3,11 +3,11 @@
     public class FoglalasDto
     {
         public int Id { get; set; }
-
         public int SzobaId { get; set; }
+        public string? SzobaNev { get; set; }
+        public string? SzobaSzam { get; set; }
         public int VendegId { get; set; }
-
-
+        public string? VendegNev { get; set; }
         public DateTime Mettol { get; set; }
         public DateTime Meddig { get; set; }
         public bool Fizetett { get; set; }

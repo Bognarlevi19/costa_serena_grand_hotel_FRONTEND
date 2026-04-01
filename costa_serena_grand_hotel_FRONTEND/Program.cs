@@ -55,6 +55,8 @@ namespace costa_serena_grand_hotel_FRONTEND
             builder.Services.AddScoped<TermekekApi>();
             builder.Services.AddScoped<RendelesekApi>();
             builder.Services.AddScoped<CartService>();
+            builder.Services.AddScoped<AdminApi>();
+            builder.Services.AddScoped<ImageStorageService>();
 
             //JWT AUTH cokkie-khez ezt a kommentent a levi irta
             builder.Services.AddDistributedMemoryCache();

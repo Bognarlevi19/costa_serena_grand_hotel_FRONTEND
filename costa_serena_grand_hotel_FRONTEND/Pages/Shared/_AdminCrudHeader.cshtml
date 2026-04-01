@@ -1,0 +1,31 @@
+﻿@{
+    var title = ViewData["AdminTitle"]?.ToString() ?? "Admin oldal";
+    var subtitle = ViewData["AdminSubTitle"]?.ToString() ?? "";
+    var backPage = ViewData["AdminBackPage"]?.ToString() ?? "/Admin/Index";
+    var addPage = ViewData["AdminAddPage"]?.ToString();
+    var addText = ViewData["AdminAddText"]?.ToString();
+}
+
+<div class="admin-page-head">
+    <div class="admin-page-head-left">
+        <div class="small text-uppercase ls text-body-secondary mb-2">Costa Serena Admin</div>
+        <h1 class="display-6 fw-semibold mb-1">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(subtitle))
+        {
+            <p class="text-body-secondary mb-0">@subtitle</p>
+        }
+    </div>
+
+    <div class="admin-page-actions">
+        <a asp-page="@backPage" class="btn btn-outline-dark rounded-pill px-4">
+            ← Vissza az admin menübe
+        </a>
+
+        @if (!string.IsNullOrWhiteSpace(addPage) && !string.IsNullOrWhiteSpace(addText))
+        {
+            <a asp-page="@addPage" class="btn btn-dark rounded-pill px-4">
+                @addText
+            </a>
+        }
+    </div>
+</div>

@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\kepek\Termekek\" />
+    <Folder Include="wwwroot\kepek\SzobaKategoriak\" />
     <Folder Include="wwwroot\kepek\Szobak\" />
   </ItemGroup>
 

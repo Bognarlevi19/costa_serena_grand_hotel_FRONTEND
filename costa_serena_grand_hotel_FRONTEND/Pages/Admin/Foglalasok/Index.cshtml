@@ -1,0 +1,74 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Foglalasok.IndexModel
+@{
+    ViewData["Title"] = "Foglalások";
+    ViewData["AdminTitle"] = "Foglalások";
+    ViewData["AdminSubTitle"] = "Foglalások listája, szerkesztése, törlése és hozzáadása.";
+    ViewData["AdminBackPage"] = "/Admin/Index";
+    ViewData["AdminAddPage"] = "/Admin/Foglalasok/Create";
+    ViewData["AdminAddText"] = "Új foglalás hozzáadása";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@Model.ErrorMessage</div>
+        }
+
+        @if (TempData["AdminError"] != null)
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@TempData["AdminError"]</div>
+        }
+
+        <div class="admin-crud-card">
+            <div class="table-responsive">
+                <table class="table admin-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Szoba</th>
+                            <th>Vendég</th>
+                            <th>Mettől</th>
+                            <th>Meddig</th>
+                            <th>Fizetett</th>
+                            <th class="admin-actions-cell">Műveletek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Foglalasok.Any())
+                        {
+                            @foreach (var item in Model.Foglalasok)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.SzobaNev (@item.SzobaSzam)</td>
+                                    <td>@item.VendegNev</td>
+                                    <td>@item.Mettol.ToString("yyyy.MM.dd")</td>
+                                    <td>@item.Meddig.ToString("yyyy.MM.dd")</td>
+                                    <td>@(item.Fizetett ? "Igen" : "Nem")</td>
+                                    <td class="admin-actions-cell">
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <a asp-page="/Admin/Foglalasok/Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Szerkesztés</a>
+                                            <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Biztosan törlöd?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">Törlés</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="admin-empty">Nincs megjeleníthető adat.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,80 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.FailedLoginsModel
+@{
+    ViewData["Title"] = "Sikertelen bejelentkezések";
+}
+
+<section class="section-soft py-5">
+    <div class="container py-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <div class="small text-uppercase ls text-body-secondary mb-2">Costa Serena Admin</div>
+                <h1 class="display-6 fw-semibold mb-1">Sikertelen bejelentkezések</h1>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-page="/Admin/Index" class="btn btn-outline-dark rounded-pill px-4">← Vissza</a>
+                <a asp-page="/Admin/Logs" class="btn btn-outline-secondary rounded-pill px-4">Logok</a>
+                <a asp-page="/Admin/IpStats" class="btn btn-outline-secondary rounded-pill px-4">IP statisztikák</a>
+            </div>
+        </div>
+
+        <div class="glass rounded-5 p-4 mb-4">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-12 col-md-3">
+                    <label asp-for="Days" class="form-label">Napok száma</label>
+                    <input asp-for="Days" type="number" min="1" class="form-control form-soft rounded-4" />
+                </div>
+                <div class="col-12 col-md-3">
+                    <button type="submit" class="btn btn-dark rounded-pill px-4">Frissítés</button>
+                </div>
+            </form>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm">@Model.ErrorMessage</div>
+        }
+        else
+        {
+            <div class="glass rounded-5 p-4">
+                <div class="table-responsive">
+                    <table class="table align-middle admin-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Időpont</th>
+                                <th>E-mail</th>
+                                <th>Útvonal</th>
+                                <th>Státusz</th>
+                                <th>IP</th>
+                                <th>Üzenet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Logs.Any())
+                            {
+                                @foreach (var log in Model.Logs)
+                                {
+                                    <tr>
+                                        <td>@log.Timestamp.ToLocalTime().ToString("yyyy.MM.dd. HH:mm:ss")</td>
+                                        <td>@(log.UserEmail ?? "Anonymous")</td>
+                                        <td>@log.Path</td>
+                                        <td>@log.StatusCode</td>
+                                        <td>@(log.IpAddress ?? "-")</td>
+                                        <td>@log.Message</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center text-body-secondary py-4">Nincs találat.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</section>

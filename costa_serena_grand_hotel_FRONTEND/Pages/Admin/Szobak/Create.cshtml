@@ -1,0 +1,97 @@
+﻿@page
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Szobak.CreateModel
+@{
+    ViewData["Title"] = "Új szoba";
+    ViewData["AdminTitle"] = "Új szoba";
+    ViewData["AdminSubTitle"] = "Új szoba létrehozása képfeltöltéssel.";
+    ViewData["AdminBackPage"] = "/Admin/Szobak/Index";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@Model.ErrorMessage</div>
+        }
+
+        <div class="admin-crud-card">
+            <form method="post" enctype="multipart/form-data">
+                <div class="admin-form-grid">
+                    <div class="admin-col-6">
+                        <label asp-for="Szoba.Nev" class="form-label">Név</label>
+                        <input asp-for="Szoba.Nev" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Szoba.Szam" class="form-label">Szobaszám</label>
+                        <input asp-for="Szoba.Szam" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-3">
+                        <label asp-for="Szoba.Emelet" class="form-label">Emelet</label>
+                        <input asp-for="Szoba.Emelet" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-3">
+                        <label asp-for="Szoba.Alapterulet" class="form-label">Alapterület</label>
+                        <input asp-for="Szoba.Alapterulet" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-3">
+                        <label asp-for="Szoba.Ar" class="form-label">Ár</label>
+                        <input asp-for="Szoba.Ar" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-3">
+                        <label asp-for="Szoba.Ferohely" class="form-label">Férőhely</label>
+                        <input asp-for="Szoba.Ferohely" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Szoba.SzobaKategoriaId" class="form-label">Szobakategória</label>
+                        <select asp-for="Szoba.SzobaKategoriaId" class="form-select form-soft rounded-4">
+                            <option value="">-- Válassz kategóriát --</option>
+                            @foreach (var item in Model.Kategoriak)
+                            {
+                                <option value="@item.Id">@item.Nev</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="admin-col-6">
+                        <label asp-for="Szoba.RovidLeiras" class="form-label">Rövid leírás</label>
+                        <input asp-for="Szoba.RovidLeiras" class="form-control form-soft rounded-4" />
+                    </div>
+
+                    <div class="admin-col-12">
+                        <label asp-for="Szoba.Leiras" class="form-label">Leírás</label>
+                        <textarea asp-for="Szoba.Leiras" class="form-control form-soft rounded-4" rows="4"></textarea>
+                    </div>
+
+                    <div class="admin-col-12">
+                        <label class="form-label">Képek feltöltése</label>
+                        <div class="admin-image-dropzone"
+                             data-dropzone
+                             data-input="#szobakUpload"
+                             data-list="#szobakUploadList">
+                            <div class="admin-image-dropzone-title">Húzd ide a képeket</div>
+                            <div class="admin-image-dropzone-sub">vagy kattints a kijelöléshez</div>
+                            <input id="szobakUpload" name="UploadedImages" type="file" multiple accept=".jpg,.jpeg,.png,.webp" class="d-none" />
+                            <div id="szobakUploadList" class="admin-upload-list"></div>
+                        </div>
+                        <div class="admin-help mt-2">
+                            A képek a FRONTEND wwwroot/kepek/Szobak mappába kerülnek.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-form-actions">
+                    <button type="submit" class="btn btn-success rounded-pill px-4">Mentés</button>
+                    <a asp-page="/Admin/Szobak/Index" class="btn btn-outline-secondary rounded-pill px-4">Mégse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

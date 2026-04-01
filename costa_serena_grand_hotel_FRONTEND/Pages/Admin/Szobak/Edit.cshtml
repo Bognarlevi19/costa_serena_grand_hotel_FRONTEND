@@ -1,0 +1,157 @@
+﻿@page "{id:int}"
+@model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Szobak.EditModel
+@{
+    ViewData["Title"] = "Szoba szerkesztése";
+}
+
+<section class="section-soft admin-page-section">
+    <div class="container">
+        <div class="admin-crud-container mx-auto" style="max-width: 1000px;">
+        @{
+            ViewData["AdminTitle"] = "Szoba szerkesztése";
+            ViewData["AdminSubTitle"] = "A szoba adatainak módosítása és képek hozzáadása.";
+            ViewData["AdminBackPage"] = "/Admin/Index";
+        }
+        <partial name="_AdminCrudHeader" />
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+        {
+            <div class="alert alert-success rounded-4 border-0 shadow-sm mb-4">
+                @Model.SuccessMessage
+            </div>
+        }
+
+        <div class="admin-crud-card">
+            <form method="post" enctype="multipart/form-data" class="row g-4">
+                <input asp-for="Szoba.Id" type="hidden" />
+                <input asp-for="Szoba.KepekJson" type="hidden" />
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Szoba.Nev" class="form-label fw-semibold">Szoba neve</label>
+                    <input asp-for="Szoba.Nev" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.Nev" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Szoba.Szam" class="form-label fw-semibold">Szobaszám</label>
+                    <input asp-for="Szoba.Szam" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.Szam" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Szoba.Emelet" class="form-label fw-semibold">Emelet</label>
+                    <input asp-for="Szoba.Emelet" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.Emelet" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Szoba.Alapterulet" class="form-label fw-semibold">Alapterület</label>
+                    <input asp-for="Szoba.Alapterulet" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.Alapterulet" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Szoba.Ar" class="form-label fw-semibold">Ár / éjszaka</label>
+                    <input asp-for="Szoba.Ar" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.Ar" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Szoba.Ferohely" class="form-label fw-semibold">Férőhely</label>
+                    <input asp-for="Szoba.Ferohely" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.Ferohely" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Szoba.SzobaKategoriaId" class="form-label fw-semibold">Szobakategória</label>
+                    <select asp-for="Szoba.SzobaKategoriaId" class="form-select form-select-lg rounded-4">
+                        <option value="">-- Válassz kategóriát --</option>
+                        @foreach (var kategoria in Model.Kategoriak)
+                        {
+                            <option value="@kategoria.Id">@kategoria.Nev</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Szoba.SzobaKategoriaId" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Szoba.RovidLeiras" class="form-label fw-semibold">Rövid leírás</label>
+                    <input asp-for="Szoba.RovidLeiras" class="form-control form-control-lg rounded-4" />
+                    <span asp-validation-for="Szoba.RovidLeiras" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Szoba.Leiras" class="form-label fw-semibold">Leírás</label>
+                    <textarea asp-for="Szoba.Leiras" rows="5" class="form-control rounded-4"></textarea>
+                    <span asp-validation-for="Szoba.Leiras" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Jelenlegi képek</label>
+
+                    @if (Model.Kepek.Any())
+                    {
+                        <div class="row g-3 mb-3">
+                            @foreach (var kep in Model.Kepek)
+                            {
+                                <div class="col-6 col-md-4 col-xl-3">
+                                    <div class="border rounded-4 p-2 h-100 bg-white shadow-sm">
+                                        <img src="@kep" class="img-fluid rounded-3 mb-2" style="height:180px; width:100%; object-fit:cover;" />
+                                        <div class="small text-break text-body-secondary">@kep</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-body-secondary mb-3">Ehhez a szobához még nincs kép feltöltve.</div>
+                    }
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Új képek hozzáadása</label>
+
+                    <div class="admin-image-dropzone rounded-4 p-4 text-center"
+                         data-dropzone
+                         data-input="#UploadedImages"
+                         data-list="#uploadedImageList">
+                        <div class="fw-semibold mb-2">Húzd ide a képeket</div>
+                        <div class="text-body-secondary small mb-3">vagy kattints és válaszd ki őket</div>
+
+                        <input type="file"
+                               id="UploadedImages"
+                               name="UploadedImages"
+                               multiple
+                               accept=".jpg,.jpeg,.png,.webp"
+                               class="form-control rounded-4" />
+                    </div>
+
+                    <div id="uploadedImageList" class="small text-body-secondary mt-3"></div>
+
+                    <div class="form-text mt-2">
+                        Engedélyezett formátumok: .jpg, .jpeg, .png, .webp
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex flex-wrap gap-2 pt-2">
+                    <button type="submit" class="btn btn-dark rounded-pill px-4">Mentés</button>
+                    <a asp-page="/Admin/Szobak/Index" class="btn btn-outline-dark rounded-pill px-4">Vissza a listához</a>
+                    <a asp-page="/Admin/Index" class="btn btn-outline-secondary rounded-pill px-4">Admin menü</a>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -17,6 +17,12 @@
         {
             <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">@TempData["AdminError"]</div>
         }
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-4">
+                @Model.ErrorMessage
+            </div>
+        }
 
         <div class="admin-crud-card">
             <div class="table-responsive">

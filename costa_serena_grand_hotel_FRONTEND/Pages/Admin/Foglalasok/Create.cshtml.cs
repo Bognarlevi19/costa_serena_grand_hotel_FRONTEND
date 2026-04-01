@@ -61,6 +61,15 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Admin.Foglalasok
             }
         }
 
+        public async Task<IActionResult> OnGetFoglaltIdoszakokAsync(int szobaId)
+        {
+            if (!_authSession.IsInRole("Admin"))
+                return new JsonResult(new List<FoglaltIdoszakDto>());
+
+            var ranges = await _api.GetBlockedRangesAsync(szobaId);
+            return new JsonResult(ranges);
+        }
+
         private async Task LoadAsync()
         {
             Szobak = (await _szobakApi.GetAllAsync())

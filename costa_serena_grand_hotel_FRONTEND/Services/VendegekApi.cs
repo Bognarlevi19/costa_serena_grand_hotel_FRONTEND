@@ -59,7 +59,11 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
             var response = await _f.CreateClient("costa_serena_grand_hotel_API")
                 .DeleteAsync($"api/Vendeg/{id}");
 
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                var hiba = await response.Content.ReadAsStringAsync();
+                throw new Exception(string.IsNullOrWhiteSpace(hiba) ? "A törlés nem sikerült." : hiba);
+            }
         }
     }
 }

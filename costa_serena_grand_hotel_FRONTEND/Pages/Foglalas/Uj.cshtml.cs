@@ -1,3 +1,4 @@
+using System.Text.Json;
 using costa_serena_grand_hotel_FRONTEND.Dtos;
 using costa_serena_grand_hotel_FRONTEND.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,8 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
         }
 
         public SzobaDto? Szoba { get; set; }
+
+        public string FoglaltIdoszakokJson { get; set; } = "[]";
 
         [TempData]
         public string? SuccessMessage { get; set; }
@@ -66,6 +69,8 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
             if (!_authSession.IsSignedIn)
                 return RedirectToPage("/Account/Login");
 
+            await LoadFoglaltIdoszakokAsync(szobaId);
+
             var vendeg = await _vendegekApi.GetCurrentAsync();
 
             if (vendeg != null)
@@ -90,6 +95,8 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
 
             if (!_authSession.IsSignedIn)
                 return RedirectToPage("/Account/Login");
+
+            await LoadFoglaltIdoszakokAsync(szobaId);
 
             if (!ModelState.IsValid)
                 return Page();
@@ -133,6 +140,12 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Foglalas
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
             }
+        }
+
+        private async Task LoadFoglaltIdoszakokAsync(int szobaId)
+        {
+            var ranges = await _foglalasokApi.GetBlockedRangesAsync(szobaId);
+            FoglaltIdoszakokJson = JsonSerializer.Serialize(ranges);
         }
     }
 }

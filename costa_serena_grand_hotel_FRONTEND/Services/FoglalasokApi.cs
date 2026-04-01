@@ -84,6 +84,12 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
                 .GetFromJsonAsync<List<SajatFoglalasDto>>("api/Foglalas/sajat")
                 ?? new List<SajatFoglalasDto>();
         }
+        public async Task<List<FoglaltIdoszakDto>> GetBlockedRangesAsync(int szobaId)
+        {
+            return await _f.CreateClient("costa_serena_grand_hotel_API")
+                .GetFromJsonAsync<List<FoglaltIdoszakDto>>($"api/Foglalas/szoba/{szobaId}/foglalt-idoszakok")
+                ?? new List<FoglaltIdoszakDto>();
+        }
 
         private static async Task EnsureSuccess(HttpResponseMessage response)
         {

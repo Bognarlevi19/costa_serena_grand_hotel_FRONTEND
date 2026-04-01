@@ -43,12 +43,18 @@
 
                     <div class="admin-col-6">
                         <label asp-for="Foglalas.Mettol" class="form-label">Érkezés</label>
-                        <input asp-for="Foglalas.Mettol" asp-format="{0:yyyy-MM-dd}" type="date" class="form-control form-soft rounded-4" />
+                        <input asp-for="Foglalas.Mettol" asp-format="{0:yyyy-MM-dd}" type="text" class="form-control form-soft rounded-4" autocomplete="off" readonly />
                     </div>
 
                     <div class="admin-col-6">
                         <label asp-for="Foglalas.Meddig" class="form-label">Távozás</label>
-                        <input asp-for="Foglalas.Meddig" asp-format="{0:yyyy-MM-dd}" type="date" class="form-control form-soft rounded-4" />
+                        <input asp-for="Foglalas.Meddig" asp-format="{0:yyyy-MM-dd}" type="text" class="form-control form-soft rounded-4" autocomplete="off" readonly />
+                    </div>
+
+                    <div class="admin-col-12">
+                        <div class="small text-body-secondary mb-2">
+                            A pirossal jelölt napok már foglaltak a kiválasztott szobánál.
+                        </div>
                     </div>
 
                     <div class="admin-col-12">
@@ -67,3 +73,125 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        const roomSelect = document.getElementById("Foglalas_SzobaId");
+        const fromInput = document.getElementById("Foglalas_Mettol");
+        const toInput = document.getElementById("Foglalas_Meddig");
+        const fetchUrlBase = '@Url.Page("/Admin/Foglalasok/Create", "FoglaltIdoszakok")';
+
+        let fromPicker = null;
+        let toPicker = null;
+        let disabledRanges = [];
+
+        function toYmd(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        function addDays(date, days) {
+            const copy = new Date(date);
+            copy.setDate(copy.getDate() + days);
+            return copy;
+        }
+
+        function normalizeRanges(ranges) {
+            return (ranges || [])
+                .map(x => {
+                    const from = new Date(x.mettol ?? x.Mettol);
+                    const toExclusive = new Date(x.meddig ?? x.Meddig);
+                    const toInclusive = addDays(toExclusive, -1);
+
+                    return {
+                        from: toYmd(from),
+                        to: toYmd(toInclusive)
+                    };
+                })
+                .filter(x => x.to >= x.from);
+        }
+
+        function isBookedDay(date) {
+            const value = toYmd(date);
+            return disabledRanges.some(x => value >= x.from && value <= x.to);
+        }
+
+        function destroyPickers() {
+            if (fromPicker) fromPicker.destroy();
+            if (toPicker) toPicker.destroy();
+        }
+
+        function createCommonOptions() {
+            return {
+                locale: flatpickr.l10ns.hu,
+                dateFormat: "Y-m-d",
+                disableMobile: true,
+                onDayCreate: function (dObj, dStr, fp, dayElem) {
+                    if (isBookedDay(dayElem.dateObj)) {
+                        dayElem.classList.add("booked-date");
+                        dayElem.title = "Ez a nap már foglalt.";
+                    }
+                }
+            };
+        }
+
+        function initPickers() {
+            destroyPickers();
+
+            const commonOptions = createCommonOptions();
+
+            toPicker = flatpickr(toInput, {
+                ...commonOptions,
+                disable: disabledRanges
+            });
+
+            fromPicker = flatpickr(fromInput, {
+                ...commonOptions,
+                disable: disabledRanges,
+                onChange: function (selectedDates) {
+                    if (!selectedDates.length) return;
+
+                    const minCheckout = addDays(selectedDates[0], 1);
+                    toPicker.set("minDate", minCheckout);
+
+                    const currentCheckout = toPicker.selectedDates[0];
+                    if (!currentCheckout || currentCheckout <= selectedDates[0]) {
+                        toPicker.setDate(minCheckout, true);
+                    }
+                }
+            });
+
+            if (fromInput.value) {
+                const selectedArrival = new Date(fromInput.value);
+                toPicker.set("minDate", addDays(selectedArrival, 1));
+            }
+        }
+
+        async function loadBlockedRanges(roomId) {
+            if (!roomId) {
+                disabledRanges = [];
+                initPickers();
+                return;
+            }
+
+            const response = await fetch(`${fetchUrlBase}&szobaId=${roomId}`);
+            if (!response.ok) {
+                disabledRanges = [];
+                initPickers();
+                return;
+            }
+
+            const data = await response.json();
+            disabledRanges = normalizeRanges(data);
+            initPickers();
+        }
+
+        roomSelect.addEventListener("change", function () {
+            loadBlockedRanges(this.value);
+        });
+
+        loadBlockedRanges(roomSelect.value);
+    </script>
+}

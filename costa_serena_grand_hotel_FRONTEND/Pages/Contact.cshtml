@@ -137,25 +137,25 @@
                     <div class="small text-uppercase ls text-body-secondary mb-2">Üzenet küldése</div>
                     <h2 class="h3 fw-semibold mb-4">Írj nekünk</h2>
 
-                    <form class="row g-3">
+                    <form id="contactForm" class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label small text-body-secondary">Név</label>
-                            <input class="form-control form-soft" type="text" placeholder="Teljes név" />
+                            <input id="contactName" class="form-control form-soft" type="text" placeholder="Teljes név" value="@Model.PrefillName" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label small text-body-secondary">E-mail</label>
-                            <input class="form-control form-soft" type="email" placeholder="email@példa.hu" />
+                            <input id="contactEmail" class="form-control form-soft" type="email" placeholder="email@példa.hu" value="@Model.PrefillEmail" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label small text-body-secondary">Telefon (opcionális)</label>
-                            <input class="form-control form-soft" type="tel" placeholder="+36..." />
+                            <input id="contactPhone" class="form-control form-soft" type="tel" placeholder="+36..." />
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label small text-body-secondary">Téma</label>
-                            <select class="form-select form-soft">
+                            <select id="contactSubject" class="form-select form-soft">
                                 <option selected>Általános kérdés</option>
                                 <option>Foglalás</option>
                                 <option>Ajánlatok</option>
@@ -166,14 +166,14 @@
 
                         <div class="col-12">
                             <label class="form-label small text-body-secondary">Üzenet</label>
-                            <textarea class="form-control form-soft" rows="5" placeholder="Írd ide az üzeneted..."></textarea>
+                            <textarea id="contactMessage" class="form-control form-soft" rows="5" placeholder="Írd ide az üzeneted..."></textarea>
                         </div>
 
                         <div class="col-12 d-flex flex-wrap align-items-center justify-content-between gap-2 mt-2">
                             <div class="small text-body-secondary">
                                 Válaszidő: általában 24 órán belül.
                             </div>
-                            <button class="btn btn-dark rounded-pill px-4" type="button">Küldés</button>
+                            <button class="btn btn-dark rounded-pill px-4" type="submit">Küldés</button>
                         </div>
                     </form>
                 </div>
@@ -182,7 +182,15 @@
         </div>
     </div>
 </section>
-
+<div id="contactPopup" class="newsletter-popup">
+    <div class="newsletter-popup-box">
+        <div class="small text-uppercase ls text-body-secondary mb-2">Üzenet elküldve</div>
+        <h4 class="fw-semibold mb-3" id="contactPopupTitle">Köszönjük üzenetét!</h4>
+        <p class="text-body-secondary mb-0" id="contactPopupText">
+            Hamarosan felvesszük Önnel a kapcsolatot.
+        </p>
+    </div>
+</div>
 <!-- ================= SERVICES SECTION ================= -->
 <section id="services" class="py-5 section-paper">
     <div class="container py-4">
@@ -291,6 +299,43 @@
             .addTo(map)
             .bindPopup('<b>Costa Serena Grand Hotel</b><br>Italy - Vieste, Via Venezia 1.')
             .openPopup();
+
+            const contactForm = document.getElementById("contactForm");
+        const contactName = document.getElementById("contactName");
+        const contactEmail = document.getElementById("contactEmail");
+        const contactPhone = document.getElementById("contactPhone");
+        const contactSubject = document.getElementById("contactSubject");
+        const contactMessage = document.getElementById("contactMessage");
+        const contactPopup = document.getElementById("contactPopup");
+        const contactPopupTitle = document.getElementById("contactPopupTitle");
+        const contactPopupText = document.getElementById("contactPopupText");
+
+        if (contactForm) {
+            contactForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const name = contactName.value.trim();
+                const email = contactEmail.value.trim();
+                const message = contactMessage.value.trim();
+
+                if (name !== "" && email !== "" && message !== "") {
+                    contactPopupTitle.textContent = `Köszönjük üzenetét, ${name}!`;
+                    contactPopupText.textContent = "Hamarosan felvesszük Önnel a kapcsolatot.";
+
+                    contactName.value = "";
+                    contactEmail.value = "";
+                    contactPhone.value = "";
+                    contactSubject.selectedIndex = 0;
+                    contactMessage.value = "";
+
+                    contactPopup.classList.add("show");
+
+                    setTimeout(() => {
+                        contactPopup.classList.remove("show");
+                    }, 3000);
+            }
+        });
+    }
     });
 </script>
 <!-- ================================================= -->

@@ -77,14 +77,20 @@ else
 
                                 <div class="col-md-4">
                                     <label asp-for="Mettol" class="form-label">Mettől</label>
-                                    <input asp-for="Mettol" type="date" class="form-control" />
+                                    <input asp-for="Mettol" asp-format="{0:yyyy-MM-dd}" type="text" class="form-control" autocomplete="off" readonly />
                                     <span asp-validation-for="Mettol" class="text-danger small"></span>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label asp-for="Meddig" class="form-label">Meddig</label>
-                                    <input asp-for="Meddig" type="date" class="form-control" />
+                                    <input asp-for="Meddig" asp-format="{0:yyyy-MM-dd}" type="text" class="form-control" autocomplete="off" readonly />
                                     <span asp-validation-for="Meddig" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="small text-body-secondary">
+                                        A pirossal jelölt napok már foglaltak.
+                                    </div>
                                 </div>
                             </div>
 
@@ -107,4 +113,86 @@ else
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const bookedRangesRaw = @Html.Raw(Model.FoglaltIdoszakokJson);
+
+        function toYmd(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        function addDays(date, days) {
+            const copy = new Date(date);
+            copy.setDate(copy.getDate() + days);
+            return copy;
+        }
+
+        function normalizeRanges(ranges) {
+            return (ranges || [])
+                .map(x => {
+                    const from = new Date(x.mettol ?? x.Mettol);
+                    const toExclusive = new Date(x.meddig ?? x.Meddig);
+                    const toInclusive = addDays(toExclusive, -1);
+
+                    return {
+                        from: toYmd(from),
+                        to: toYmd(toInclusive)
+                    };
+                })
+                .filter(x => x.to >= x.from);
+        }
+
+        function isBookedDay(date, ranges) {
+            const value = toYmd(date);
+            return ranges.some(x => value >= x.from && value <= x.to);
+        }
+
+        const disabledRanges = normalizeRanges(bookedRangesRaw);
+
+        const commonOptions = {
+            locale: flatpickr.l10ns.hu,
+            dateFormat: "Y-m-d",
+            disableMobile: true,
+            onDayCreate: function (dObj, dStr, fp, dayElem) {
+                if (isBookedDay(dayElem.dateObj, disabledRanges)) {
+                    dayElem.classList.add("booked-date");
+                    dayElem.title = "Ez a nap már foglalt.";
+                }
+            }
+        };
+
+        const fromInput = document.getElementById("Mettol");
+        const toInput = document.getElementById("Meddig");
+
+        const toPicker = flatpickr(toInput, {
+            ...commonOptions,
+            minDate: toInput.value || addDays(new Date(), 1),
+            disable: disabledRanges
+        });
+
+        const fromPicker = flatpickr(fromInput, {
+            ...commonOptions,
+            minDate: "today",
+            disable: disabledRanges,
+            onChange: function (selectedDates) {
+                if (!selectedDates.length) return;
+
+                const minCheckout = addDays(selectedDates[0], 1);
+                toPicker.set("minDate", minCheckout);
+
+                const currentCheckout = toPicker.selectedDates[0];
+                if (!currentCheckout || currentCheckout <= selectedDates[0]) {
+                    toPicker.setDate(minCheckout, true);
+                }
+            }
+        });
+
+        if (fromInput.value) {
+            const selectedArrival = new Date(fromInput.value);
+            toPicker.set("minDate", addDays(selectedArrival, 1));
+        }
+    </script>
 }

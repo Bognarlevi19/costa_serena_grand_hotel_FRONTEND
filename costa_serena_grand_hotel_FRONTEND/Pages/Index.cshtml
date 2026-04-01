@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Főoldal";
 }
+@inject costa_serena_grand_hotel_FRONTEND.Services.AuthSession AuthSession
 
 
 <!-- HERO -->
@@ -213,7 +214,17 @@
                     <h3 class="h4 mb-3">Értesüljön elsőként.</h3>
 
                     <form class="vstack gap-2" id="newsletterForm">
-                        <input class="form-control form-soft" id="newsletterEmail" placeholder="Email cím" type="email" />
+                        @if (AuthSession.IsSignedIn)
+                        {
+                            <div class="text-body-secondary small mb-1">
+                                Bejelentkezve mint <strong>@AuthSession.GetEmail()</strong>
+                            </div>
+                        }
+                        else
+                        {
+                            <input class="form-control form-soft" id="newsletterEmail" placeholder="Email cím" type="email" />
+                        }
+
                         <button class="btn btn-outline-dark rounded-pill mt-2" type="submit">Feliratkozás</button>
                     </form>
                 </div>
@@ -367,7 +378,7 @@
 }
 
 <script>
-        function closeBookingPopup() {
+    function closeBookingPopup() {
         var popup = document.getElementById("foglalasKoszonoPopup");
         if (popup) {
             popup.style.display = "none";
@@ -379,15 +390,20 @@
         const input = document.getElementById("newsletterEmail");
         const popup = document.getElementById("newsletterPopup");
         const popupTitle = document.getElementById("newsletterPopupTitle");
+        const signedInEmail = "@(AuthSession.IsSignedIn? AuthSession.GetEmail() ?? "" : "")";
 
         form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const email = input.value.trim();
+            const email = signedInEmail || input?.value.trim() || "";
 
             if (email !== "") {
                 popupTitle.textContent = `Köszönjük a feliratkozást, ${email}`;
-                input.value = "";
+
+                if (input) {
+                    input.value = "";
+                }
+
                 popup.classList.add("show");
 
                 setTimeout(() => {

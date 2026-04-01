@@ -2,42 +2,60 @@
 @model costa_serena_grand_hotel_FRONTEND.Pages.Admin.Foglalasok.EditModel
 @{
     ViewData["Title"] = "Foglalás szerkesztése";
+    ViewData["AdminTitle"] = "Foglalás szerkesztése";
+    ViewData["AdminSubTitle"] = "Foglalás adatainak módosítása.";
+    ViewData["AdminBackPage"] = "/Admin/Foglalasok/Index";
 }
 
-<div class="container py-4">
-    <h1 class="mb-4">Foglalás szerkesztése</h1>
+<section class="section-soft admin-page-section">
+    <div class="container admin-crud-container">
+        <partial name="_AdminCrudHeader" />
 
-    <form method="post" class="row g-3">
-        <input asp-for="Foglalas.Id" type="hidden" />
+        <div class="mx-auto" style="max-width: 1100px;">
+            <div class="admin-crud-card">
+                <form method="post">
+                    <input asp-for="Foglalas.Id" type="hidden" />
 
-        <div class="col-md-6">
-            <label asp-for="Foglalas.SzobaId" class="form-label"></label>
-            <input asp-for="Foglalas.SzobaId" class="form-control" />
+                    <div class="admin-form-grid">
+                        <div class="admin-col-6">
+                            <label asp-for="Foglalas.SzobaId" class="form-label">SzobaId</label>
+                            <input asp-for="Foglalas.SzobaId" class="form-control form-soft rounded-4" />
+                        </div>
+
+                        <div class="admin-col-6">
+                            <label asp-for="Foglalas.VendegId" class="form-label">VendegId</label>
+                            <input asp-for="Foglalas.VendegId" class="form-control form-soft rounded-4" />
+                        </div>
+
+                        <div class="admin-col-6">
+                            <label asp-for="Foglalas.Mettol" class="form-label">Mettől</label>
+                            <input asp-for="Foglalas.Mettol" type="date" class="form-control form-soft rounded-4" />
+                        </div>
+
+                        <div class="admin-col-6">
+                            <label asp-for="Foglalas.Meddig" class="form-label">Meddig</label>
+                            <input asp-for="Foglalas.Meddig" type="date" class="form-control form-soft rounded-4" />
+                        </div>
+
+                        <div class="admin-col-12">
+                            <div class="form-check">
+                                <input asp-for="Foglalas.Fizetett" class="form-check-input" />
+                                <label asp-for="Foglalas.Fizetett" class="form-check-label">Fizetett</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-actions mt-4 d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-success rounded-pill px-4">Mentés</button>
+                        <a asp-page="/Admin/Foglalasok/Index" class="btn btn-outline-secondary rounded-pill px-4">Vissza a listához</a>
+                        <a asp-page="/Admin/Index" class="btn btn-outline-dark rounded-pill px-4">Admin menü</a>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
+</section>
 
-        <div class="col-md-6">
-            <label asp-for="Foglalas.VendegId" class="form-label"></label>
-            <input asp-for="Foglalas.VendegId" class="form-control" />
-        </div>
-
-        <div class="col-md-6">
-            <label asp-for="Foglalas.Mettol" class="form-label"></label>
-            <input asp-for="Foglalas.Mettol" type="date" class="form-control" />
-        </div>
-
-        <div class="col-md-6">
-            <label asp-for="Foglalas.Meddig" class="form-label"></label>
-            <input asp-for="Foglalas.Meddig" type="date" class="form-control" />
-        </div>
-
-        <div class="col-12 form-check ms-2">
-            <input asp-for="Foglalas.Fizetett" class="form-check-input" />
-            <label asp-for="Foglalas.Fizetett" class="form-check-label">Fizetett</label>
-        </div>
-
-        <div class="col-12">
-            <button type="submit" class="btn btn-success">Mentés</button>
-            <a asp-page="/Admin/Foglalasok/Index" class="btn btn-secondary">Vissza</a>
-        </div>
-    </form>
-</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

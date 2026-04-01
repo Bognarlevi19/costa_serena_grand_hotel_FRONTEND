@@ -17,6 +17,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Admin.Vendegek
         }
 
         public List<VendegDto> Vendegek { get; set; } = new();
+        public string? ErrorMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -24,15 +25,32 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Admin.Vendegek
                 return RedirectToPage("/Errors/Forbidden");
 
             Vendegek = (await _api.GetAllAsync())
-     .OrderBy(x => x.Id)
-     .ToList();
+                .OrderBy(x => x.Id)
+                .ToList();
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            await _api.DeleteAsync(id);
-            return RedirectToPage();
+            if (!_authSession.IsInRole("Admin"))
+                return RedirectToPage("/Errors/Forbidden");
+
+            try
+            {
+                await _api.DeleteAsync(id);
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+
+                Vendegek = (await _api.GetAllAsync())
+                    .OrderBy(x => x.Id)
+                    .ToList();
+
+                return Page();
+            }
         }
     }
 }

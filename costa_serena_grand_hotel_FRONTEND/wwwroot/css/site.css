@@ -1854,3 +1854,42 @@ img {
     }
 }
 /***********************************/
+/*FOGLALasok szines naptar*/
+.flatpickr-day.booked-date,
+.flatpickr-day.booked-date:hover,
+.flatpickr-day.booked-date:focus {
+    background: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+    text-decoration: none !important;
+}
+
+    .flatpickr-day.booked-date.flatpickr-disabled,
+    .flatpickr-day.booked-date.prevMonthDay,
+    .flatpickr-day.booked-date.nextMonthDay {
+        background: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: #ffffff !important;
+        opacity: .95 !important;
+    }
+
+    .flatpickr-day.booked-date::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border: 1px solid rgba(255,255,255,.45);
+        border-radius: 999px;
+        pointer-events: none;
+    }
+/****************************/
+/*Foglalasok edit oldal igazitasahoz*/
+.admin-page-section {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+}
+
+.admin-crud-container {
+    max-width: 1200px;
+}
+/**************************/

@@ -26,7 +26,6 @@
                             <th>Id</th>
                             <th>Név</th>
                             <th>Leírás</th>
-                            <th>Darab</th>
                             <th class="admin-actions-cell">Műveletek</th>
                         </tr>
                     </thead>
@@ -39,7 +38,6 @@
                                     <td>@item.Id</td>
                                     <td>@item.Nev</td>
                                     <td>@item.Leiras</td>
-                                    <td>@item.Darab</td>
                                     <td class="admin-actions-cell">
                                         <div class="d-flex gap-2 flex-wrap">
                                             <a asp-page="/Admin/SzobaKategoriak/Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Szerkesztés</a>
@@ -54,7 +52,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="5" class="admin-empty">Nincs megjeleníthető adat.</td>
+                                <td colspan="4" class="admin-empty">Nincs megjeleníthető adat.</td>
                             </tr>
                         }
                     </tbody>

@@ -45,10 +45,17 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 
         public async Task DeleteAsync(int id)
         {
-            var response = await _f.CreateClient("costa_serena_grand_hotel_API")
-                .DeleteAsync($"api/Termek/{id}");
+            try
+            {
+                var response = await _f.CreateClient("costa_serena_grand_hotel_API")
+                    .DeleteAsync($"api/Termek/{id}");
 
-            await EnsureSuccess(response);
+                await EnsureSuccess(response);
+            }
+            catch (HttpRequestException)
+            {
+                throw new Exception("A termék törlése közben szerverhiba történt.");
+            }
         }
 
         private static async Task EnsureSuccess(HttpResponseMessage response)
@@ -57,7 +64,11 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
                 return;
 
             var error = await response.Content.ReadAsStringAsync();
-            throw new Exception(string.IsNullOrWhiteSpace(error) ? "A művelet nem sikerült." : error);
+
+            if (string.IsNullOrWhiteSpace(error))
+                throw new Exception("A művelet nem sikerült.");
+
+            throw new Exception(error);
         }
     }
 }

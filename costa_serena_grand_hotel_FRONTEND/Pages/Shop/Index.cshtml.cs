@@ -22,6 +22,9 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Shop
         [TempData]
         public string? SuccessMessage { get; set; }
 
+        [TempData]
+        public string? ErrorMessage { get; set; }
+
         public async Task OnGetAsync()
         {
             Termekek = await _termekekApi.GetAllAsync();
@@ -34,6 +37,21 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Shop
 
             if (termek == null)
                 return NotFound();
+
+            if (termek.Darabszam <= 0)
+            {
+                ErrorMessage = "A termék jelenleg nincs készleten.";
+                return RedirectToPage();
+            }
+
+            var cartItem = _cartService.GetCart().FirstOrDefault(x => x.TermekId == termekId);
+            var jelenlegiMennyiseg = cartItem?.Mennyiseg ?? 0;
+
+            if (jelenlegiMennyiseg >= termek.Darabszam)
+            {
+                ErrorMessage = "Nem tehetsz többet a kosárba, mint amennyi készleten van.";
+                return RedirectToPage();
+            }
 
             _cartService.AddItem(termek, 1);
             SuccessMessage = "A termék bekerült a kosárba.";

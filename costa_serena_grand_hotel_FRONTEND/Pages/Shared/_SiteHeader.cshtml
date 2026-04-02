@@ -1,37 +1,8 @@
-﻿@using System.Text.Json
-@inject IHttpContextAccessor HttpContextAccessor
-@inject costa_serena_grand_hotel_FRONTEND.Services.AuthSession AuthSession
+﻿@inject costa_serena_grand_hotel_FRONTEND.Services.AuthSession AuthSession
+@inject costa_serena_grand_hotel_FRONTEND.Services.CartService CartService
 
 @{
-    var cartJson = HttpContextAccessor.HttpContext?.Session.GetString("webshop.cart");
-    var cartCount = 0;
-
-    if (!string.IsNullOrWhiteSpace(cartJson))
-    {
-        try
-        {
-            using var doc = JsonDocument.Parse(cartJson);
-            if (doc.RootElement.ValueKind == JsonValueKind.Array)
-            {
-                foreach (var item in doc.RootElement.EnumerateArray())
-                {
-                    if (item.TryGetProperty("Mennyiseg", out var mennyisegProp) &&
-                        mennyisegProp.TryGetInt32(out var mennyiseg))
-                    {
-                        cartCount += mennyiseg;
-                    }
-                    else
-                    {
-                        cartCount += 1;
-                    }
-                }
-            }
-        }
-        catch
-        {
-            cartCount = 0;
-        }
-    }
+    var cartCount = CartService.GetCount();
 }
 
 <header class="position-fixed top-0 start-0 end-0 z-3 header-glass">

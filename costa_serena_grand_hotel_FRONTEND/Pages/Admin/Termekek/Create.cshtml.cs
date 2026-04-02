@@ -19,7 +19,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Admin.Termekek
         }
 
         [BindProperty]
-        public TermekDto Termek { get; set; } = new() { Aktiv = true };
+        public TermekDto Termek { get; set; } = new() { Darabszam = 0 };
 
         [BindProperty]
         public IFormFile? UploadedImage { get; set; }
@@ -38,6 +38,12 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Admin.Termekek
         {
             if (!_authSession.IsInRole("Admin"))
                 return RedirectToPage("/Errors/Forbidden");
+
+            if (Termek.Darabszam < 0)
+            {
+                ErrorMessage = "A darabszám nem lehet negatív.";
+                return Page();
+            }
 
             try
             {

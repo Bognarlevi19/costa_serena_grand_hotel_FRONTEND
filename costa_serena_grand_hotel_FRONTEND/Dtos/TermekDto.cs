@@ -8,6 +8,6 @@
         public int Ar { get; set; }
         public string? KepUrl { get; set; }
         public string? Kategoria { get; set; }
-        public bool Aktiv { get; set; }
+        public int Darabszam { get; set; }
     }
 }

@@ -31,14 +31,12 @@
 
                     <div class="admin-col-6">
                         <label asp-for="Termek.Ar" class="form-label">Ár</label>
-                        <input asp-for="Termek.Ar" class="form-control form-soft rounded-4" />
+                        <input asp-for="Termek.Ar" type="number" min="0" class="form-control form-soft rounded-4" />
                     </div>
 
                     <div class="admin-col-6">
-                        <div class="form-check mt-4">
-                            <input asp-for="Termek.Aktiv" class="form-check-input" />
-                            <label asp-for="Termek.Aktiv" class="form-check-label">Aktív</label>
-                        </div>
+                        <label asp-for="Termek.Darabszam" class="form-label">Darabszám</label>
+                        <input asp-for="Termek.Darabszam" type="number" min="0" class="form-control form-soft rounded-4" />
                     </div>
 
                     <div class="admin-col-12">

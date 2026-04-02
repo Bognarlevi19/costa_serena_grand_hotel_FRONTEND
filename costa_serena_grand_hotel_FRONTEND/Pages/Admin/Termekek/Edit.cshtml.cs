@@ -44,6 +44,12 @@ namespace costa_serena_grand_hotel_FRONTEND.Pages.Admin.Termekek
             if (!_authSession.IsInRole("Admin"))
                 return RedirectToPage("/Errors/Forbidden");
 
+            if (Termek.Darabszam < 0)
+            {
+                ErrorMessage = "A darabszám nem lehet negatív.";
+                return Page();
+            }
+
             try
             {
                 var path = await _imageStorage.SaveSingleAsync(UploadedImage, "Termekek");

@@ -5,17 +5,25 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 {
     public class CartService
     {
-        private const string CartKey = "webshop.cart";
+        private const string CartKeyPrefix = "webshop.cart";
         private readonly IHttpContextAccessor _http;
+        private readonly AuthSession _authSession;
 
-        public CartService(IHttpContextAccessor http)
+        public CartService(IHttpContextAccessor http, AuthSession authSession)
         {
             _http = http;
+            _authSession = authSession;
+        }
+
+        private string GetCartKey()
+        {
+            var ownerKey = _authSession.GetCartOwnerKey();
+            return $"{CartKeyPrefix}.{ownerKey}";
         }
 
         public List<CartItemDto> GetCart()
         {
-            var json = _http.HttpContext?.Session.GetString(CartKey);
+            var json = _http.HttpContext?.Session.GetString(GetCartKey());
 
             if (string.IsNullOrWhiteSpace(json))
                 return new List<CartItemDto>();
@@ -26,7 +34,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
         public void SaveCart(List<CartItemDto> items)
         {
             var json = JsonSerializer.Serialize(items);
-            _http.HttpContext?.Session.SetString(CartKey, json);
+            _http.HttpContext?.Session.SetString(GetCartKey(), json);
         }
 
         public void AddItem(TermekDto termek, int mennyiseg = 1)
@@ -83,7 +91,7 @@ namespace costa_serena_grand_hotel_FRONTEND.Services
 
         public void Clear()
         {
-            _http.HttpContext?.Session.Remove(CartKey);
+            _http.HttpContext?.Session.Remove(GetCartKey());
         }
 
         public int GetCount()

@@ -32,7 +32,7 @@
                             <th>Név</th>
                             <th>Kategória</th>
                             <th>Ár</th>
-                            <th>Aktív</th>
+                            <th>Darabszám</th>
                             <th class="admin-actions-cell">Műveletek</th>
                         </tr>
                     </thead>
@@ -46,7 +46,7 @@
                                     <td>@item.Nev</td>
                                     <td>@item.Kategoria</td>
                                     <td>@item.Ar Ft</td>
-                                    <td>@(item.Aktiv ? "Igen" : "Nem")</td>
+                                    <td>@item.Darabszam db</td>
                                     <td class="admin-actions-cell">
                                         <div class="d-flex gap-2 flex-wrap">
                                             <a asp-page="/Admin/Termekek/Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Szerkesztés</a>

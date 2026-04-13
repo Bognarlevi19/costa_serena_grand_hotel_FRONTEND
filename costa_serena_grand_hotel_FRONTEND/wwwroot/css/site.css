@@ -1641,6 +1641,11 @@ img {
         padding-right: 3.5rem !important;
     }
 
+        .password-toggle input[type="password"]::-ms-reveal,
+        .password-toggle input[type="password"]::-ms-clear {
+            display: none;
+        }
+
 .password-toggle-btn {
     position: absolute;
     top: 50%;

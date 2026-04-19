@@ -26,12 +26,6 @@
 
                 <div class="d-flex flex-wrap gap-2">
                     <a class="btn btn-dark rounded-pill px-4" href="#story">Tudj meg többet</a>
-                    <button class="btn btn-outline-dark rounded-pill px-4"
-                            type="button"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#reserve">
-                        Foglalás
-                    </button>
                 </div>
             </div>
         </div>
@@ -139,7 +133,7 @@
                 <p class="text-body-secondary mb-4">
                     Exkluzív illatok, prémium textíliák és gondosan válogatott kiegészítők, amelyek a tengerparti nyugalmat hozzák el otthonodba.
                 </p>
-                <a class="btn btn-dark rounded-pill px-4" href="#">Kollekció megtekintése</a>
+                <a class="btn btn-dark rounded-pill px-4" asp-page="/Shop/Index">Kollekció megtekintése</a>
             </div>
 
             <div class="col-lg-6">
@@ -302,65 +296,6 @@
     </div>
 </footer>
 
-
-
-<!-- OFFCANVAS: RESERVE -->
-<div class="offcanvas offcanvas-end bg-white text-dark" tabindex="-1" id="reserve">
-    <div class="offcanvas-header border-bottom border-dark border-opacity-10">
-        <h5 class="offcanvas-title ls">RESERVE</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-        <form class="vstack gap-3">
-            <div>
-                <label class="form-label small text-body-secondary">Location</label>
-                <select class="form-select form-soft">
-                    <option selected>All destinations</option>
-                    <option>Budapest</option>
-                    <option>Vienna</option>
-                    <option>Prague</option>
-                </select>
-            </div>
-
-            <div class="row g-2">
-                <div class="col-6">
-                    <label class="form-label small text-body-secondary">Arrival</label>
-                    <input type="date" class="form-control form-soft" />
-                </div>
-                <div class="col-6">
-                    <label class="form-label small text-body-secondary">Departure</label>
-                    <input type="date" class="form-control form-soft" />
-                </div>
-            </div>
-
-            <div class="row g-2">
-                <div class="col-6">
-                    <label class="form-label small text-body-secondary">Guests</label>
-                    <select class="form-select form-soft">
-                        <option>1</option>
-                        <option selected>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <label class="form-label small text-body-secondary">Rooms</label>
-                    <select class="form-select form-soft">
-                        <option selected>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-dark rounded-pill py-2">Search</button>
-            <div class="small text-body-secondary">Itt majd összekötöd a saját foglalómotoroddal.</div>  <!-- ERRE FIGYELJUNK MAJD IRJUK AT A SZOVEGET -->
-        </form>
-    </div>
-</div>
 
 @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
 {

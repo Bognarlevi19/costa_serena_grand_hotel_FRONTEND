@@ -92,7 +92,7 @@
         </div>
     </section>
 
-    <!-- KÉPGALÉRIA (Carousel) -->
+    <!-- KÉPGALÉRIA -->
     <section id="galeria" class="section-paper border-top">
         <div class="container py-5">
             <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-3">
@@ -203,7 +203,6 @@
 
 </main>
 
-<!-- ===== FULLSCREEN LIGHTBOX MODAL (Bootstrap) ===== -->
 <div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content bg-black">
@@ -276,7 +275,7 @@
 </footer>
 @section Scripts {
     <script>
-        // Minden .js-lightbox képre kattintva megnyitjuk a bootstrap fullscreen modalt
+        
         document.addEventListener("DOMContentLoaded", function () {
             const modalEl = document.getElementById("lightboxModal");
             const imgEl = document.getElementById("lightboxImage");
@@ -290,7 +289,7 @@
                 });
             });
 
-            // Bezáráskor ürítjük a src-t (hogy ne “villogjon” következő nyitásnál)
+            
             modalEl.addEventListener("hidden.bs.modal", function () {
                 imgEl.setAttribute("src", "");
             });
